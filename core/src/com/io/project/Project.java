@@ -10,8 +10,17 @@ public class Project extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	
+	Model model;
+	View view;
+	Controller controller;
+	
 	@Override
 	public void create () {
+		model = new Model();
+		view = new View();
+		controller = new Controller();
+		
+		
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}
