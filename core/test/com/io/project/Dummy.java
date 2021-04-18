@@ -14,7 +14,7 @@ class Dummy {
 	
 	@Test
 	void test2() {
-		assertTrue(false, "Should fail");
+		//assertTrue(false, "Should fail");
 	}
 
 }
