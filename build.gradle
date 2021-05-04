@@ -22,17 +22,19 @@ allprojects {
 	tasks.withType(JavaCompile).configureEach {
 	    javaCompiler = javaToolchains.compilerFor {
 	        languageVersion = JavaLanguageVersion.of(11)
+	        vendor = JvmVendorSpec.ADOPTOPENJDK
 	    }
 	}
 	tasks.withType(JavaLauncher).configureEach {
 		javaLauncher = javaToolchains.launcherFor {
 	        languageVersion = JavaLanguageVersion.of(11)
+	        vendor = JvmVendorSpec.ADOPTOPENJDK
 	    }
 	}
 
     version = '1.0'
     ext {
-        appName = 'FuriousVeggies'
+        appName = 'Furious Veggies'
         gdxVersion = '1.9.14'
         roboVMVersion = '2.3.12'
         box2DLightsVersion = '1.5'
