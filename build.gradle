@@ -21,12 +21,12 @@ allprojects {
 
 	tasks.withType(JavaCompile).configureEach {
 	    javaCompiler = javaToolchains.compilerFor {
-	        languageVersion = JavaLanguageVersion.of(11)
+	        languageVersion = JavaLanguageVersion.of(8)
 	    }
 	}
 	tasks.withType(JavaLauncher).configureEach {
 		javaLauncher = javaToolchains.launcherFor {
-	        languageVersion = JavaLanguageVersion.of(11)
+	        languageVersion = JavaLanguageVersion.of(8)
 	    }
 	}
 
