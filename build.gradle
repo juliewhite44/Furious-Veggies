@@ -22,13 +22,11 @@ allprojects {
 	tasks.withType(JavaCompile).configureEach {
 	    javaCompiler = javaToolchains.compilerFor {
 	        languageVersion = JavaLanguageVersion.of(11)
-	        vendor = JvmVendorSpec.ADOPTOPENJDK
 	    }
 	}
 	tasks.withType(JavaLauncher).configureEach {
 		javaLauncher = javaToolchains.launcherFor {
 	        languageVersion = JavaLanguageVersion.of(11)
-	        vendor = JvmVendorSpec.ADOPTOPENJDK
 	    }
 	}
 
