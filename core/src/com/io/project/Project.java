@@ -17,8 +17,8 @@ public class Project extends ApplicationAdapter {
 	@Override
 	public void create () {
 		model = new Model();
-		view = new View();
-		controller = new Controller();
+		controller = new Controller(model);
+		view = new View(model, controller);
 		
 		
 		batch = new SpriteBatch();
@@ -27,11 +27,10 @@ public class Project extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		model.act();
+		view.draw();
+		controller.control();
+		
 	}
 	
 	@Override
