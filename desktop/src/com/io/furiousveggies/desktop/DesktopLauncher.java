@@ -1,14 +1,14 @@
-package com.io.project.desktop;
+package com.io.furiousveggies.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.io.project.Project;
+import com.io.furiousveggies.FuriousVeggies;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1024;
 		config.height = 512;
-		new LwjglApplication(new Project(), config);
+		new LwjglApplication(new FuriousVeggies(), config);
 	}
 }

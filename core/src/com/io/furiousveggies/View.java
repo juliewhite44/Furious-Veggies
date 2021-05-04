@@ -1,4 +1,4 @@
-package com.io.project;
+package com.io.furiousveggies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 
 public class View implements Disposable {
