@@ -17,6 +17,18 @@ buildscript {
 
 allprojects {
     apply plugin: "eclipse"
+    apply plugin: "java-library"
+
+	tasks.withType(JavaCompile).configureEach {
+	    javaCompiler = javaToolchains.compilerFor {
+	        languageVersion = JavaLanguageVersion.of(11)
+	    }
+	}
+	tasks.withType(JavaLauncher).configureEach {
+		javaLauncher = javaToolchains.launcherFor {
+	        languageVersion = JavaLanguageVersion.of(11)
+	    }
+	}
 
     version = '1.0'
     ext {
