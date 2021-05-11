@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class Model implements Disposable {
 	OrthographicCamera cam;
 	SpriteBatch batch;
-	Stage menu;
+	Stage menu, game;
 	float width, height;
 	
 	Screen screen;
@@ -21,10 +21,16 @@ public class Model implements Disposable {
 		case menu:
 			menu.act();
 			break;
-
+		case game:
+			game.act();
+			break;
 		default:
 			break;
 		}
+	}
+	
+	void startGame() {
+		//todo
 	}
 	
 	Model(){
@@ -37,6 +43,7 @@ public class Model implements Disposable {
 		ScreenViewport viewport = new ScreenViewport(cam);
 		
 		menu = new Stage(viewport, batch);
+		game = new Stage(viewport, batch);
 		
 		width = Gdx.graphics.getWidth();
 		height = Gdx.graphics.getHeight();

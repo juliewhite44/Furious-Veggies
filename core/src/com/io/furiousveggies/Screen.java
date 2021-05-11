@@ -1,5 +1,5 @@
 package com.io.furiousveggies;
 
 public enum Screen {
-	menu,
+	menu, game
 }

@@ -21,12 +21,24 @@ public class View implements Disposable {
 		case menu:
 			model.menu.draw();
 			break;
+		case game:
+			model.game.draw();
+			break;
 		default:
 			break;
 		}
 	}
 	
-	
+	void createGame() {
+		Table root = new Table();
+		root.setFillParent(true);
+		model.game.addActor(root);
+		
+		Table mainTable = new Table(skin);
+		mainTable.setBackground("window-round");
+		
+		root.add(mainTable).grow().pad(0);
+	}
 	
 	void createMenu() {
 		Table root = new Table();
@@ -35,22 +47,23 @@ public class View implements Disposable {
 		
 		Table table = new Table(skin);
 		table.setBackground("window");
+		table.setBounds(0, 0, model.width, model.height);
 		
 		root.add(table).grow().pad(0);
 		
 		Table subtable = new Table();
 		
-		TextButton menu1 = new TextButton("button1", skin);
+		TextButton menu1 = new TextButton("Play", skin);
 		menu1.addListener(controller.menu_button_1);
-		subtable.add(menu1).growY().expand().left().padLeft(model.width/100).padTop(model.height/100);
+		subtable.add(menu1).grow().padLeft(model.width/100).padTop(model.height/100).padRight(model.height/100);
 		subtable.row();
 		
-		TextButton menu2 = new TextButton("button2", skin);
+		TextButton menu2 = new TextButton("Settings", skin);
 		menu2.addListener(controller.menu_button_2);
-		subtable.add(menu2).growY().expand().left().padLeft(model.width/100).padTop(model.height/100).padBottom(model.width/100);
-		table.add(subtable).growY().expand().left().padRight(0);
+		subtable.add(menu2).grow().padLeft(model.width/100).padTop(model.height/100).padBottom(model.width/100).padRight(model.height/100);
+		table.add(subtable).grow().padRight(0);
 		
-		Label title = new Label("Title", skin, "title");
+		Label title = new Label("Furious\nVeggies", skin, "title");
 		table.add(title).expand().center().padTop(model.height/100);
 		
 	}
