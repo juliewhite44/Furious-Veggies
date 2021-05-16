@@ -5,18 +5,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class FuriousVeggies extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+	private SpriteBatch batch;
+	private Texture img;
 	
-	Model model;
-	View view;
-	Controller controller;
+	private Model model;
+	private View view;
+	private Controller controller;
 	
 	@Override
 	public void create () {
 		model = new Model();
 		controller = new Controller(model);
-		view = new View(model, controller);
+		view = new View(controller);
 		
 		
 		batch = new SpriteBatch();

@@ -13,41 +13,45 @@ public class Controller {
 		menu_button_1 = new ChangeListener() {
 	        @Override
 	        public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-	            model.screen = Screen.game;
+	            model.setScreen(Screen.game);
 	            model.startGame();
 	        }
 	    },
 			menu_button_2 = new ChangeListener() {
 	        @Override
 	        public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-	            
+				model.setScreen(Screen.settings);
+				model.startSettings();
 	        }
 	    };
 	InputListener game_esc = new InputListener(){
         @Override
         public boolean keyDown (InputEvent event, int keycode){
             if(keycode == Input.Keys.ESCAPE)
-                    model.screen = Screen.menu;
+                    model.setScreen(Screen.menu);
             return true;
         }
     };
 	    
 	//directs input at the right stage - so that its buttons can process clicks, key presses and such
-	void control() {
-		switch (model.screen) {
-		case menu:
-			Gdx.input.setInputProcessor(model.menu);
-			break;
-		case game:
-			Gdx.input.setInputProcessor(model.game);
-		default:
-			break;
-		}
+	public void control() {
+		model.setInputProcessor();
 	}
-	
 	
 	public Controller(Model model) {
 		this.model = model;
-		model.game.addListener(game_esc);
+		model.addListenerForGame(game_esc);
+	}
+
+	public ChangeListener getMenu_button_1() {
+		return menu_button_1;
+	}
+
+	public ChangeListener getMenu_button_2() {
+		return menu_button_2;
+	}
+
+	public Model getModel() {
+		return model;
 	}
 }

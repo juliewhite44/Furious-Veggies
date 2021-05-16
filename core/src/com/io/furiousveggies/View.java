@@ -9,67 +9,71 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Disposable;
 
 public class View implements Disposable {
-	Model model;
-	Controller controller;
-	Skin skin;
+	private Controller controller;
+	private Skin skin;
+
 	
 	//draw current stage
-	void draw() {
-		Gdx.gl.glClearColor(0, 0.4f, 0.1f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		switch (model.screen) {
-		case menu:
-			model.menu.draw();
-			break;
-		case game:
-			model.game.draw();
-			break;
-		default:
-			break;
-		}
+	public void draw() {
+		controller.getModel().draw();
 	}
-	
-	void createGame() {
+
+
+	public void createGame() {
 		Table root = new Table();
 		root.setFillParent(true);
-		model.game.addActor(root);
+		controller.getModel().addActorForGame(root);
 		
 		Table mainTable = new Table(skin);
 		mainTable.setBackground("window-round");
 		
 		root.add(mainTable).grow().pad(0);
 	}
-	
-	void createMenu() {
+
+	public void createSettings() {
 		Table root = new Table();
 		root.setFillParent(true);
-		model.menu.addActor(root);
+		controller.getModel().addActorForSettings(root);
+
+		Table mainTable = new Table(skin);
+		mainTable.setBackground("window-round");
+
+		root.add(mainTable).grow().pad(0);
+	}
+
+
+	//nie mozemy odnosic sie tutaj do model.width, jak wczesniej, wiec jest aktualnie
+	//controller.getModel().getWidth(), ale czemu po prostu nie zrobić Gdx.graphics.getWidth();
+	//czy zmienna width jest do czegoś używana w klasie Model?
+	public void createMenu() {
+		Table root = new Table();
+		root.setFillParent(true);
+		controller.getModel().addActorForMenu(root);
 		
 		Table table = new Table(skin);
 		table.setBackground("window");
-		table.setBounds(0, 0, model.width, model.height);
+		table.setBounds(0, 0, controller.getModel().getWidth(), controller.getModel().getHeight());
 		
 		root.add(table).grow().pad(0);
 		
 		Table subtable = new Table();
 		
 		TextButton menu1 = new TextButton("Play", skin);
-		menu1.addListener(controller.menu_button_1);
-		subtable.add(menu1).grow().padLeft(model.width/100).padTop(model.height/100).padRight(model.height/100);
+		menu1.addListener(controller.getMenu_button_1());
+		subtable.add(menu1).grow().padLeft(controller.getModel().getWidth()/100).padTop(controller.getModel().getHeight()/100).padRight(controller.getModel().getHeight()/100);
 		subtable.row();
 		
 		TextButton menu2 = new TextButton("Settings", skin);
-		menu2.addListener(controller.menu_button_2);
-		subtable.add(menu2).grow().padLeft(model.width/100).padTop(model.height/100).padBottom(model.width/100).padRight(model.height/100);
+		menu2.addListener(controller.getMenu_button_2());
+		subtable.add(menu2).grow().padLeft(controller.getModel().getWidth()/100).padTop(controller.getModel().getHeight()/100).padBottom(controller.getModel().getWidth()/100).padRight(controller.getModel().getHeight()/100);
 		table.add(subtable).grow().padRight(0);
 		
 		Label title = new Label("Furious\nVeggies", skin, "title");
-		table.add(title).expand().center().padTop(model.height/100);
+		table.add(title).expand().center().padTop(controller.getModel().getHeight()/100);
 		
 	}
 
-	View(Model model, Controller controller){
-		this.model = model;
+	public View(Controller controller){
 		this.controller = controller;
 
 		skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
