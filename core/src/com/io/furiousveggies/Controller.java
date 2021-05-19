@@ -12,14 +12,14 @@ public class Controller {
 	private View view;
 	
 	public final ChangeListener
-		menu_button_1 = new ChangeListener() {
+		menu_button_game = new ChangeListener() {
 	        @Override
 	        public void changed(ChangeListener.ChangeEvent event, Actor actor) {
 	        	model.startGame(view.createGame());
 	        	Gdx.input.setInputProcessor(view.setGame());
 	        }
 	    },
-			menu_button_2 = new ChangeListener() {
+			menu_button_settings = new ChangeListener() {
 	        @Override
 	        public void changed(ChangeListener.ChangeEvent event, Actor actor) {
 	        	Gdx.input.setInputProcessor(view.setSettings());
@@ -44,12 +44,12 @@ public class Controller {
 		Gdx.input.setInputProcessor(view.setMenu());
 	}
 
-	public ChangeListener getMenu_button_1() {
-		return menu_button_1;
+	public ChangeListener getMenu_button_game() {
+		return menu_button_game;
 	}
 
-	public ChangeListener getMenu_button_2() {
-		return menu_button_2;
+	public ChangeListener getMenu_button_settings() {
+		return menu_button_settings;
 	}
 
 	public Model getModel() {

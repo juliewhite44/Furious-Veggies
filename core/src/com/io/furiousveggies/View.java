@@ -84,14 +84,14 @@ public class View implements Disposable {
 		
 		Table subtable = new Table();
 		
-		TextButton menu1 = new TextButton("Play", skin);
-		menu1.addListener(controller.getMenu_button_1());
-		subtable.add(menu1).grow().padLeft(width/100).padTop(height/100).padRight(width/100);
+		TextButton menu_game = new TextButton("Play", skin);
+		menu_game.addListener(controller.getMenu_button_game());
+		subtable.add(menu_game).grow().padLeft(width/100).padTop(height/100).padRight(width/100);
 		subtable.row();
 		
-		TextButton menu2 = new TextButton("Settings", skin);
-		menu2.addListener(controller.getMenu_button_2());
-		subtable.add(menu2).grow().padLeft(width/100).padTop(height/100).padBottom(width/100).padRight(height/100);
+		TextButton menu_settings = new TextButton("Settings", skin);
+		menu_settings.addListener(controller.getMenu_button_settings());
+		subtable.add(menu_settings).grow().padLeft(width/100).padTop(height/100).padBottom(width/100).padRight(height/100);
 		table.add(subtable).grow().padRight(0);
 		
 		Label title = new Label("Furious\nVeggies", skin, "title");
