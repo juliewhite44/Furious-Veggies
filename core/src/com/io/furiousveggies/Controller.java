@@ -8,39 +8,40 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class Controller {
-	Model model;
-	ChangeListener
+	private Model model;
+	private View view;
+	
+	public final ChangeListener
 		menu_button_1 = new ChangeListener() {
 	        @Override
 	        public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-	            model.setScreen(Screen.game);
-	            model.startGame();
+	        	model.startGame(view.createGame());
+	        	Gdx.input.setInputProcessor(view.setGame());
 	        }
 	    },
 			menu_button_2 = new ChangeListener() {
 	        @Override
 	        public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-				model.setScreen(Screen.settings);
-				model.startSettings();
+	        	Gdx.input.setInputProcessor(view.setSettings());
 	        }
 	    };
-	InputListener game_esc = new InputListener(){
+	public final InputListener game_esc = new InputListener(){
         @Override
         public boolean keyDown (InputEvent event, int keycode){
             if(keycode == Input.Keys.ESCAPE)
-                    model.setScreen(Screen.menu);
+            	Gdx.input.setInputProcessor(view.setMenu());
             return true;
         }
     };
-	    
-	//directs input at the right stage - so that its buttons can process clicks, key presses and such
-	public void control() {
-		model.setInputProcessor();
-	}
+    
 	
-	public Controller(Model model) {
+	public Controller(Model model, View view) {
 		this.model = model;
-		model.addListenerForGame(game_esc);
+		this.view = view;
+		view.controller = this;
+		model.controller = this;
+		
+		Gdx.input.setInputProcessor(view.setMenu());
 	}
 
 	public ChangeListener getMenu_button_1() {

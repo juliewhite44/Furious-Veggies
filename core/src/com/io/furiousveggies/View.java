@@ -1,44 +1,70 @@
 package com.io.furiousveggies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class View implements Disposable {
-	private Controller controller;
-	private Skin skin;
-
+	private OrthographicCamera cam;
+	private SpriteBatch batch;
+	private Stage menu, settings, game, current;
+	Controller controller;
+	final static Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+	private float width, height;
 	
 	//draw current stage
 	public void draw() {
-		controller.getModel().draw();
+		Gdx.gl.glClearColor(0, 0.4f, 0.1f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		current.draw();
 	}
 
 
-	public void createGame() {
+	public Stage createGame() {
+		game.clear();
+		game.addListener(controller.game_esc);
 		Table root = new Table();
 		root.setFillParent(true);
-		controller.getModel().addActorForGame(root);
+		game.addActor(root);
 		
 		Table mainTable = new Table(skin);
 		mainTable.setBackground("window-round");
 		
 		root.add(mainTable).grow().pad(0);
+		return game;
 	}
 
 	public void createSettings() {
+		settings.addListener(controller.game_esc);
 		Table root = new Table();
 		root.setFillParent(true);
-		controller.getModel().addActorForSettings(root);
+		settings.addActor(root);
 
 		Table mainTable = new Table(skin);
 		mainTable.setBackground("window-round");
 
 		root.add(mainTable).grow().pad(0);
+	}
+	
+	public InputProcessor setMenu() {
+		return current = menu;
+	}
+	
+	public InputProcessor setGame() {
+		return current = game;
+	}
+	
+	public InputProcessor setSettings() {
+		return current = settings;
 	}
 
 
@@ -48,11 +74,11 @@ public class View implements Disposable {
 	public void createMenu() {
 		Table root = new Table();
 		root.setFillParent(true);
-		controller.getModel().addActorForMenu(root);
+		menu.addActor(root);
 		
 		Table table = new Table(skin);
 		table.setBackground("window");
-		table.setBounds(0, 0, controller.getModel().getWidth(), controller.getModel().getHeight());
+		table.setBounds(0, 0, width, height);
 		
 		root.add(table).grow().pad(0);
 		
@@ -60,28 +86,41 @@ public class View implements Disposable {
 		
 		TextButton menu1 = new TextButton("Play", skin);
 		menu1.addListener(controller.getMenu_button_1());
-		subtable.add(menu1).grow().padLeft(controller.getModel().getWidth()/100).padTop(controller.getModel().getHeight()/100).padRight(controller.getModel().getHeight()/100);
+		subtable.add(menu1).grow().padLeft(width/100).padTop(height/100).padRight(width/100);
 		subtable.row();
 		
 		TextButton menu2 = new TextButton("Settings", skin);
 		menu2.addListener(controller.getMenu_button_2());
-		subtable.add(menu2).grow().padLeft(controller.getModel().getWidth()/100).padTop(controller.getModel().getHeight()/100).padBottom(controller.getModel().getWidth()/100).padRight(controller.getModel().getHeight()/100);
+		subtable.add(menu2).grow().padLeft(width/100).padTop(height/100).padBottom(width/100).padRight(height/100);
 		table.add(subtable).grow().padRight(0);
 		
 		Label title = new Label("Furious\nVeggies", skin, "title");
-		table.add(title).expand().center().padTop(controller.getModel().getHeight()/100);
+		table.add(title).expand().center().padTop(height/100);
 		
 	}
 
-	public View(Controller controller){
-		this.controller = controller;
-
-		skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
-		createMenu();
+	public View(){		
+		cam = new OrthographicCamera();
+		cam.setToOrtho(false);
+		cam.update();
+		
+		batch = new SpriteBatch();
+		
+		ScreenViewport viewport = new ScreenViewport(cam);
+		
+		menu = new Stage(viewport, batch);
+		settings = new Stage(viewport, batch);
+		game = new Stage(viewport, batch);
+		
+		current = menu;
 	}
 
 	@Override
 	public void dispose() {
+		batch.dispose();
+		menu.dispose();
+		settings.dispose();
+		game.dispose();
 		skin.dispose();
 	}
 }

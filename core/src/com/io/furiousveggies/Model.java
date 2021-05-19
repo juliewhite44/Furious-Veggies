@@ -1,9 +1,17 @@
 package com.io.furiousveggies;
 
+import java.io.Console;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -11,119 +19,65 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class Model implements Disposable {
-	private OrthographicCamera cam;
-	private SpriteBatch batch;
-	private Stage menu, game, settings;
-	private float width, height;
-	
-	private Screen screen;
-
-	public void setScreen(Screen sc) {
-		screen = sc;
-	}
-
-	public float getWidth() {
-		return width;
-	}
-
-	public float getHeight() {
-		return height;
-	}
+	Controller controller;
+	private Stage game;
+	private World world;
+	private final float width = 20.0f, height = 10.0f;
 
 	//makes adequate stage process any actions its actors should do
 	public void act() {
-		switch (screen) {
-		case menu:
-			menu.act();
-			break;
-		case game:
+		if(Gdx.input.getInputProcessor() == game) {
 			game.act();
-			break;
-		case settings:
-			settings.act();
-		default:
-			break;
+			world.step(1.0f/60.0f, 8, 3);
 		}
 	}
 	
-	public void startGame() {
+	private void addBox(float x, float y, float size) {
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyType.DynamicBody;
+		bodyDef.position.set(x, y);
+		
+		Body body = world.createBody(bodyDef);
+		
+		PolygonShape box = new PolygonShape();
+		box.setAsBox(0.5f * size, 0.5f * size);
+		
+		body.createFixture(box, 1.0f);
+		
+		box.dispose();
+		
+		game.addActor(new Block(body, size));
+	}
+	
+	private void addGround() {
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyType.StaticBody;
+		bodyDef.position.set(0, -0.5f);
+		
+		Body body = world.createBody(bodyDef);
+		
+		PolygonShape box = new PolygonShape();
+		box.setAsBox(width, 0.6f);
+		
+		body.createFixture(box, 1.0f);
+		
+		box.dispose();
+	}
+	
+	public void startGame(Stage g) {
+		game = g;
+		addGround();
+		addBox(15, 5, 1);
+		addBox(16, 2, 2);
 		//todo
-	}
-
-	public void startSettings() {
-		//todo
-	}
-
-	public void setInputProcessor() {
-		switch (screen) {
-			case menu:
-				Gdx.input.setInputProcessor(menu);
-				break;
-			case game:
-				Gdx.input.setInputProcessor(game);
-				break;
-			case settings:
-				Gdx.input.setInputProcessor(settings);
-				break;
-			default:
-				break;
-		}
-	}
-
-	public void draw() {
-		Gdx.gl.glClearColor(0, 0.4f, 0.1f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		switch (screen) {
-			case menu:
-				menu.draw();
-				break;
-			case game:
-				game.draw();
-				break;
-			case settings:
-				settings.draw();
-				break;
-			default:
-				break;
-		}
-	}
-
-	public void addActorForGame(Table table) {
-		game.addActor(table);
-	}
-	public void addActorForMenu(Table table) {
-		menu.addActor(table);
-	}
-	public void addActorForSettings(Table table) {
-		settings.addActor(table);
-	}
-
-	public void addListenerForGame(InputListener listener) {
-		game.addListener(listener);
 	}
 
 	public Model(){
-		cam = new OrthographicCamera();
-		cam.setToOrtho(false);
-		cam.update();
-		
-		batch = new SpriteBatch();
-		
-		ScreenViewport viewport = new ScreenViewport(cam);
-		
-		menu = new Stage(viewport, batch);
-		game = new Stage(viewport, batch);
-		settings = new Stage(viewport, batch);
-		
-		width = Gdx.graphics.getWidth();
-		height = Gdx.graphics.getHeight();
-		
-		screen = Screen.menu;
+		world = new World(new Vector2(0,-10f), true);
 	}
 
 	@Override
 	public void dispose() {
-		batch.dispose();
-		menu.dispose();		
+		world.dispose();
 	}
 }
