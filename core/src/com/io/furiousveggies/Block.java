@@ -6,35 +6,39 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Align;
 
 public class Block extends Actor {
 	Body body;
-	Drawable texture;
+	TransformDrawable texture;
 	
-	final float width = 20.0f, height = 10.0f, scale, size;
+	static final float scr_width = 20.0f, scr_height = 10.0f;
+	final float scale, size;
 	
 	@Override
 	public void draw (Batch batch, float parentAlpha) {
-		Vector2 pos = body.getPosition();
-		texture.draw(batch, (pos.x - size/2) * scale, (pos.y - size/2) * scale, size * scale, size * scale);
+		texture.draw(batch, getX(), getY(), getWidth()/2f, getHeight()/2f, getWidth(), getHeight(), 1f, 1f, getRotation());
 	}
 	
 	@Override
 	public void act (float delta) {
-		Vector2 pos = body.getPosition();
+		Vector2 pos = body.getWorldCenter();
+		setRotation((float)Math.toDegrees(body.getAngle()));
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
 	}
 	
 	Block(Body body, float size){
 		this.body = body;
 		this.size = size;
-		scale = Gdx.graphics.getWidth()/width;
+		scale = Gdx.graphics.getWidth()/scr_width;
 		
 		Vector2 pos = body.getPosition();
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
 		setSize(size * scale, size * scale);
 		
-		texture = View.skin.getDrawable("button");
+		texture = (TransformDrawable)View.skin.getDrawable("button");
 	}
 }

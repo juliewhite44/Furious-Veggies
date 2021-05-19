@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -28,7 +29,7 @@ public class Model implements Disposable {
 	public void act() {
 		if(Gdx.input.getInputProcessor() == game) {
 			game.act();
-			world.step(1.0f/60.0f, 8, 3);
+			world.step(1.0f/60.0f, 8, 6);
 		}
 	}
 	
@@ -42,7 +43,9 @@ public class Model implements Disposable {
 		PolygonShape box = new PolygonShape();
 		box.setAsBox(0.5f * size, 0.5f * size);
 		
-		body.createFixture(box, 1.0f);
+		Fixture fixture = body.createFixture(box, 1.0f);
+		fixture.setRestitution(0);
+		fixture.setFriction(1);
 		
 		box.dispose();
 		
@@ -59,16 +62,20 @@ public class Model implements Disposable {
 		PolygonShape box = new PolygonShape();
 		box.setAsBox(width, 0.6f);
 		
-		body.createFixture(box, 1.0f);
+		Fixture fixture = body.createFixture(box, 0.0f);
+		fixture.setRestitution(0);
+		fixture.setFriction(1);
 		
 		box.dispose();
 	}
 	
 	public void startGame(Stage g) {
 		game = g;
+		world.dispose();
+		world = new World(new Vector2(0,-10f), true);
 		addGround();
-		addBox(15, 5, 1);
-		addBox(16, 2, 2);
+		addBox(14f, 5f, 3f);
+		addBox(15.5f, 2f, 1.5f);
 		//todo
 	}
 
