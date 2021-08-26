@@ -95,8 +95,8 @@ public class Model implements Disposable {
 		addGround();
 		addBox(14f, 5f, 3f);
 		addBox(14f, 2f, 1.5f);
-		addBox(3f, 2f, 2f);
-		addProjectile(3f, 3f, 1f);
+		addBox(5f, 2f, 2f);
+		addProjectile(5f, 3f, 1f);
 		//todo
 	}
 

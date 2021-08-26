@@ -14,6 +14,7 @@ public class Projectile extends Actor {
     Body body;
     TransformDrawable texture;
     boolean shot;
+    int cursorX, cursorY;
 
     static final float scr_width = 20.0f, scr_height = 10.0f;
     final float scale, size;
@@ -29,9 +30,16 @@ public class Projectile extends Actor {
         setRotation((float)Math.toDegrees(body.getAngle()));
         setPosition(pos.x * scale, pos.y * scale, Align.center);
 
-        if (!shot && Gdx.input.isTouched()){
-            shot = true;
-            body.applyLinearImpulse(20, 5, pos.x, pos.y, true);
+        if (!shot) {
+            if (Gdx.input.isTouched()) {
+                cursorX = Gdx.input.getX();
+                // Pozycja kursora jest podawana z punktem (0, 0) w lewym górnym rogu, zaś pozycja obiektu z punktem (0, 0) w lewym dolnym rogu
+                cursorY = Gdx.graphics.getHeight() - Gdx.input.getY();
+            }
+            else if (cursorX != -1 || cursorY != -1){
+                shot = true;
+                body.applyLinearImpulse(((pos.x * scale) - cursorX)/10, ((pos.y * scale) - cursorY)/10, pos.x, pos.y, true);
+            }
         }
     }
 
@@ -40,6 +48,7 @@ public class Projectile extends Actor {
         this.size = size;
         scale = Gdx.graphics.getWidth()/scr_width;
         shot = false;
+        cursorX = cursorY = -1;
 
         Vector2 pos = body.getPosition();
         setPosition(pos.x * scale, pos.y * scale, Align.center);
