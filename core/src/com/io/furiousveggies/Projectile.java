@@ -21,7 +21,12 @@ public class Projectile extends Actor {
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
-        texture.draw(batch, getX(), getY(), getWidth()/2f, getHeight()/2f, getWidth(), getHeight(), 1f, 1f, getRotation());
+        if (!shot && Gdx.input.isTouched()) {
+            texture.draw(batch, Gdx.input.getX() - (getWidth() / 2f), Gdx.graphics.getHeight() - Gdx.input.getY() - (getHeight() / 2f), getWidth() / 2f, getHeight() / 2f, getWidth(), getHeight(), 1f, 1f, getRotation());
+        }
+        else {
+            texture.draw(batch, getX(), getY(), getWidth() / 2f, getHeight() / 2f, getWidth(), getHeight(), 1f, 1f, getRotation());
+        }
     }
 
     @Override
