@@ -69,7 +69,7 @@ public class Game extends Stage {
             bodyDef.position.set(shooterX, shooterSize);
         }
         else {
-            bodyDef.position.set(shooterX - 2 * size, 0);
+            bodyDef.position.set(shooterX - 1.5f * size * projectiles.size, 0);
         }
 
         Body body = world.createBody(bodyDef);

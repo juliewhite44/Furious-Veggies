@@ -48,6 +48,7 @@ public class Model implements Disposable {
 		game.addProjectile(world, 1f);
 		game.addProjectile(world, 1f);
 		game.addProjectile(world, 1f);
+		game.addProjectile(world, 1f);
 		//todo
 	}
 
