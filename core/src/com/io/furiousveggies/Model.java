@@ -1,23 +1,14 @@
 package com.io.furiousveggies;
 
-import java.io.Console;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class Model implements Disposable {
 	Controller controller;
-	private Stage game;
+	private Game game;
 	private World world;
 	private final float width = 20.0f, height = 10.0f;
 
@@ -64,7 +55,7 @@ public class Model implements Disposable {
 
 		box.dispose();
 
-		game.addActor(new Projectile(body, size));
+		game.addProjectile(new Projectile(body, size));
 	}
 	
 	private void addGround() {
@@ -84,7 +75,7 @@ public class Model implements Disposable {
 		box.dispose();
 	}
 	
-	public void startGame(Stage g) {
+	public void startGame(Game g) {
 		game = g;
 		world.dispose();
 		world = new World(new Vector2(0,-10f), true);
@@ -92,6 +83,8 @@ public class Model implements Disposable {
 		addBox(14f, 5f, 3f);
 		addBox(14f, 2f, 1.5f);
 		addBox(5f, 2f, 2f);
+		addProjectile(5f, 3f, 1f);
+		addProjectile(5f, 3f, 1f);
 		addProjectile(5f, 3f, 1f);
 		//todo
 	}

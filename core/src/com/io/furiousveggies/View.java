@@ -16,7 +16,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class View implements Disposable {
 	private OrthographicCamera cam;
 	private SpriteBatch batch;
-	private Stage menu, settings, game, current;
+	private Game game;
+	private Stage menu, settings, current;
 	Controller controller;
 	final static Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
 	private float width, height;
@@ -29,7 +30,7 @@ public class View implements Disposable {
 	}
 
 
-	public Stage createGame() {
+	public Game createGame() {
 		game.clear();
 		game.addListener(controller.game_esc);
 		Table root = new Table();
@@ -110,7 +111,7 @@ public class View implements Disposable {
 		
 		menu = new Stage(viewport, batch);
 		settings = new Stage(viewport, batch);
-		game = new Stage(viewport, batch);
+		game = new Game(viewport, batch);
 		
 		current = menu;
 	}
