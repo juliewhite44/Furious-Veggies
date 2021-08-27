@@ -66,10 +66,10 @@ public class Game extends Stage {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         if (projectiles.size == 0){
-            bodyDef.position.set(shooterX, shooterSize);
+            bodyDef.position.set(shooterX - size / 2, shooterSize);
         }
         else {
-            bodyDef.position.set(shooterX - 1.5f * size * projectiles.size, size/2);
+            bodyDef.position.set(shooterX - 1.5f * size * projectiles.size - size / 2, 0);
         }
 
         Body body = world.createBody(bodyDef);
@@ -114,7 +114,7 @@ public class Game extends Stage {
             if (currentProjectile < projectiles.size) {
                 projectile = projectiles.get(currentProjectile);
                 projectile.addAction(Actions.sequence(
-                        Actions.moveBy(0, shooterSize * 1.3f * scale - projectile.getY() - projectile.getHeight() / 2, 0.5f),
+                        Actions.moveBy(0, shooterSize * scale - projectile.getY(), 0.5f),
                         Actions.moveBy(shooterX * scale - projectile.getX() - projectile.getWidth() / 2, 0, 0.5f)));
             }
             for (int i = currentProjectile + 1; i < projectiles.size; i++){

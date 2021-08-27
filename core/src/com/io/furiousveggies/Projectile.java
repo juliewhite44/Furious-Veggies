@@ -24,27 +24,18 @@ public class Projectile extends Actor {
 
     @Override
     public void act (float delta) {
-        // Problem: raz położenie jest sczytywane z Body, a raz jest modyfikowane przez Actions
-        // Tak naprawdę Body jest potrzebne dopiero po wystrzeleniu (ale również po postawieniu na shooterze?) i wówczas już nie będzie ręcznie modyfikowane
-        float x = getX(), y = getY(), rotation = getRotation();
-        super.act(delta);
-        x -= getX();
-        y -= getY();
-        rotation -= getRotation();
-
-        Vector2 pos = body.getWorldCenter();
-        if (rotation == 0) {
+        if (body.isActive()){
+            Vector2 pos = body.getWorldCenter();
             setRotation((float) Math.toDegrees(body.getAngle()));
-        }
-
-        if (aiming) {
-            // Pozycja kursora jest podawana z punktem (0, 0) w lewym górnym rogu, zaś pozycja obiektu z punktem (0, 0) w lewym dolnym rogu
-            setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), Align.center);
-        }
-        else if (x == 0 && y == 0){
             setPosition(pos.x * scale, pos.y * scale, Align.center);
         }
-        else{
+        else {
+            if (aiming) {
+                // Pozycja kursora jest podawana z punktem (0, 0) w lewym górnym rogu, zaś pozycja obiektu z punktem (0, 0) w lewym dolnym rogu
+                setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), Align.center);
+            } else {
+                super.act(delta);
+            }
             body.setTransform((getX() + getWidth() / 2) / scale, (getY() + getHeight() / 2) / scale, 0);
         }
     }
@@ -59,6 +50,7 @@ public class Projectile extends Actor {
     public void shoot(){
         aiming = false;
         Vector2 pos = body.getWorldCenter();
+        body.setActive(true);
         body.applyLinearImpulse((oldX - Gdx.input.getX())/10, (oldY - (Gdx.graphics.getHeight() - Gdx.input.getY()))/10, pos.x, pos.y, true);
     }
 
@@ -66,6 +58,7 @@ public class Projectile extends Actor {
         this.body = body;
         this.size = size;
         body.setBullet(true);
+        body.setActive(false);
         scale = Gdx.graphics.getWidth()/scr_width;
         aiming = false;
         oldX = oldY = -1;
