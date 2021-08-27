@@ -51,6 +51,7 @@ public class Projectile extends Actor {
     Projectile(Body body, float size){
         this.body = body;
         this.size = size;
+        body.setBullet(true);
         scale = Gdx.graphics.getWidth()/scr_width;
         aiming = false;
         oldX = oldY = -1;

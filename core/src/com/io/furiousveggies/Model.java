@@ -20,44 +20,6 @@ public class Model implements Disposable {
 		}
 	}
 	
-	private void addBox(float x, float y, float size) {
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(x, y);
-		
-		Body body = world.createBody(bodyDef);
-		
-		PolygonShape box = new PolygonShape();
-		box.setAsBox(0.5f * size, 0.5f * size);
-		
-		Fixture fixture = body.createFixture(box, 1.0f);
-		fixture.setRestitution(0);
-		fixture.setFriction(1);
-		
-		box.dispose();
-		
-		game.addActor(new Block(body, size));
-	}
-
-	private void addProjectile(float x, float y, float size) {
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(x, y);
-
-		Body body = world.createBody(bodyDef);
-
-		CircleShape box = new CircleShape();
-		box.setRadius(0.5f * size);
-
-		Fixture fixture = body.createFixture(box, 1.0f);
-		fixture.setRestitution(0);
-		fixture.setFriction(1);
-
-		box.dispose();
-
-		game.addProjectile(new Projectile(body, size));
-	}
-	
 	private void addGround() {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.StaticBody;
@@ -80,12 +42,12 @@ public class Model implements Disposable {
 		world.dispose();
 		world = new World(new Vector2(0,-10f), true);
 		addGround();
-		addBox(14f, 5f, 3f);
-		addBox(14f, 2f, 1.5f);
-		addBox(5f, 2f, 2f);
-		addProjectile(5f, 3f, 1f);
-		addProjectile(5f, 3f, 1f);
-		addProjectile(5f, 3f, 1f);
+		game.addBox(world, 14f, 5f, 3f);
+		game.addBox(world, 14f, 2f, 1.5f);
+		game.addShooter(world, 5f, 2f, 2f);
+		game.addProjectile(world, 1f);
+		game.addProjectile(world, 1f);
+		game.addProjectile(world, 1f);
 		//todo
 	}
 
