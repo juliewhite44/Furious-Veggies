@@ -24,13 +24,18 @@ public class Projectile extends Actor {
 
     @Override
     public void act (float delta) {
-        float x = getX(), y = getY();
+        // Problem: raz położenie jest sczytywane z Body, a raz jest modyfikowane przez Actions
+        // Tak naprawdę Body jest potrzebne dopiero po wystrzeleniu (ale również po postawieniu na shooterze?) i wówczas już nie będzie ręcznie modyfikowane
+        float x = getX(), y = getY(), rotation = getRotation();
         super.act(delta);
         x -= getX();
         y -= getY();
+        rotation -= getRotation();
 
         Vector2 pos = body.getWorldCenter();
-        setRotation((float)Math.toDegrees(body.getAngle()));
+        if (rotation == 0) {
+            setRotation((float) Math.toDegrees(body.getAngle()));
+        }
 
         if (aiming) {
             // Pozycja kursora jest podawana z punktem (0, 0) w lewym górnym rogu, zaś pozycja obiektu z punktem (0, 0) w lewym dolnym rogu
@@ -40,7 +45,7 @@ public class Projectile extends Actor {
             setPosition(pos.x * scale, pos.y * scale, Align.center);
         }
         else{
-            body.setTransform(getX() / scale, getY() / scale, 0);
+            body.setTransform((getX() + getWidth() / 2) / scale, (getY() + getHeight() / 2) / scale, 0);
         }
     }
 

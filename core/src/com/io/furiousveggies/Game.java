@@ -69,7 +69,7 @@ public class Game extends Stage {
             bodyDef.position.set(shooterX, shooterSize);
         }
         else {
-            bodyDef.position.set(shooterX - 1.5f * size * projectiles.size, 0);
+            bodyDef.position.set(shooterX - 1.5f * size * projectiles.size, size/2);
         }
 
         Body body = world.createBody(bodyDef);
@@ -113,8 +113,16 @@ public class Game extends Stage {
             currentProjectile++;
             if (currentProjectile < projectiles.size) {
                 projectile = projectiles.get(currentProjectile);
-                projectile.addAction(Actions.sequence(Actions.moveBy(0, shooterSize * 1.3f * scale - projectile.getY(), 0.5f),
-                        Actions.moveBy(shooterX * scale - projectile.getX(), 0, 0.5f)));
+                projectile.addAction(Actions.sequence(
+                        Actions.moveBy(0, shooterSize * 1.3f * scale - projectile.getY() - projectile.getHeight() / 2, 0.5f),
+                        Actions.moveBy(shooterX * scale - projectile.getX() - projectile.getWidth() / 2, 0, 0.5f)));
+            }
+            for (int i = currentProjectile + 1; i < projectiles.size; i++){
+                projectile = projectiles.get(i);
+                projectile.addAction(Actions.parallel(
+                        Actions.moveBy(1.5f * projectile.getWidth(), 0, 1),
+                        Actions.rotateBy(-360, 1)
+                ));
             }
         }
         return super.touchDown(screenX, screenY, pointer, button);
