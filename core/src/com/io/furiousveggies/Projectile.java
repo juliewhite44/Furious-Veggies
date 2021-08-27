@@ -24,14 +24,23 @@ public class Projectile extends Actor {
 
     @Override
     public void act (float delta) {
+        float x = getX(), y = getY();
+        super.act(delta);
+        x -= getX();
+        y -= getY();
+
         Vector2 pos = body.getWorldCenter();
         setRotation((float)Math.toDegrees(body.getAngle()));
-        if (!aiming){
+
+        if (aiming) {
+            // Pozycja kursora jest podawana z punktem (0, 0) w lewym górnym rogu, zaś pozycja obiektu z punktem (0, 0) w lewym dolnym rogu
+            setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), Align.center);
+        }
+        else if (x == 0 && y == 0){
             setPosition(pos.x * scale, pos.y * scale, Align.center);
         }
         else{
-            // Pozycja kursora jest podawana z punktem (0, 0) w lewym górnym rogu, zaś pozycja obiektu z punktem (0, 0) w lewym dolnym rogu
-            setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), Align.center);
+            body.setTransform(getX() / scale, getY() / scale, 0);
         }
     }
 

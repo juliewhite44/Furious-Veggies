@@ -44,7 +44,7 @@ public class Model implements Disposable {
 		addGround();
 		game.addBox(world, 14f, 5f, 3f);
 		game.addBox(world, 14f, 2f, 1.5f);
-		game.addShooter(world, 5f, 2f, 2f);
+		game.addShooter(world, 5f, 2f);
 		game.addProjectile(world, 1f);
 		game.addProjectile(world, 1f);
 		game.addProjectile(world, 1f);
