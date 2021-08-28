@@ -14,7 +14,6 @@ public class Projectile extends Actor {
     private boolean aiming;
     private float oldX, oldY;
 
-    static final float scr_width = 20.0f, scr_height = 10.0f;
     final float scale, size;
 
     @Override
@@ -59,7 +58,7 @@ public class Projectile extends Actor {
         this.size = size;
         body.setBullet(true);
         body.setActive(false);
-        scale = Gdx.graphics.getWidth()/scr_width;
+        scale = Gdx.graphics.getWidth()/Game.width;
         aiming = false;
         oldX = oldY = -1;
 

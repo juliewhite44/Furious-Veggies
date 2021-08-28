@@ -2,6 +2,7 @@ package com.io.furiousveggies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -9,18 +10,40 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends Stage {
+    private final World world;
     private final Array<Projectile> projectiles;
+    private final float scale;
     private int currentProjectile;
     private float shooterX, shooterSize;
-    private float scale;
+
+    static final float width = 20.0f, height = 10.0f;
 
     public Game(Viewport viewport, Batch batch){
         super(viewport, batch);
+        world = new World(new Vector2(0,-10f), true);
         projectiles = new Array<Projectile>();
+        scale = Gdx.graphics.getWidth()/width;
         clear();
     }
 
-    public void addBox(World world, float x, float y, float size) {
+    public void addGround() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(0, -0.5f);
+
+        Body body = world.createBody(bodyDef);
+
+        PolygonShape box = new PolygonShape();
+        box.setAsBox(width, 0.6f);
+
+        Fixture fixture = body.createFixture(box, 0.0f);
+        fixture.setRestitution(0);
+        fixture.setFriction(1);
+
+        box.dispose();
+    }
+
+    public void addBox(float x, float y, float size) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
@@ -39,7 +62,7 @@ public class Game extends Stage {
         addActor(new Block(body, size));
     }
 
-    public void addShooter(World world, float x, float size) {
+    public void addShooter(float x, float size) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x, size/2);
@@ -58,11 +81,10 @@ public class Game extends Stage {
         shooterX = x;
         shooterSize = size;
         Shooter shooter = new Shooter(body, size);
-        scale = shooter.getX()/x;
         addActor(shooter);
     }
 
-    public void addProjectile(World world, float size){
+    public void addProjectile(float size){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         if (projectiles.size == 0){
@@ -89,12 +111,23 @@ public class Game extends Stage {
     }
 
     @Override
+    public void act(float delta){
+        super.act(delta);
+        world.step(1.0f/60.0f, 8, 6);
+    }
+
+    @Override
     public void clear(){
         super.clear();
         projectiles.clear();
         currentProjectile = 0;
         shooterX = shooterSize = 0;
-        scale = 1;
+    }
+
+    @Override
+    public void dispose(){
+        super.dispose();
+        world.dispose();
     }
 
     @Override

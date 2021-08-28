@@ -14,8 +14,7 @@ import com.badlogic.gdx.utils.Align;
 public class Block extends Actor {
 	Body body;
 	TransformDrawable texture;
-	
-	static final float scr_width = 20.0f, scr_height = 10.0f;
+
 	final float scale, size;
 	
 	@Override
@@ -33,7 +32,7 @@ public class Block extends Actor {
 	Block(Body body, float size){
 		this.body = body;
 		this.size = size;
-		scale = Gdx.graphics.getWidth()/scr_width;
+		scale = Gdx.graphics.getWidth()/Game.width;
 		
 		Vector2 pos = body.getPosition();
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
