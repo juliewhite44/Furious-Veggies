@@ -66,6 +66,7 @@ public class Model implements Disposable {
 				currentLevel++;
 				if (currentLevel < levels.size){
 					game.clear();
+					game.addListener(controller.game_esc);
 					levels.get(currentLevel).accept(game);
 				}
 			}

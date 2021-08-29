@@ -33,14 +33,6 @@ public class View implements Disposable {
 	public Game createGame() {
 		game.clear();
 		game.addListener(controller.game_esc);
-		Table root = new Table();
-		root.setFillParent(true);
-		game.addActor(root);
-		
-		Table mainTable = new Table(skin);
-		mainTable.setBackground("window-round");
-		
-		root.add(mainTable).grow().pad(0);
 		return game;
 	}
 

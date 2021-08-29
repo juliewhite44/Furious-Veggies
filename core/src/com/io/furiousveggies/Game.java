@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -169,6 +170,16 @@ public class Game extends Stage {
     @Override
     public void clear(){
         super.clear();
+
+        Table root = new Table();
+        root.setFillParent(true);
+        addActor(root);
+
+        Table mainTable = new Table(View.skin);
+        mainTable.setBackground("window-round");
+
+        root.add(mainTable).grow().pad(0);
+
         projectiles.clear();
         enemies.clear();
         defeatedEnemies.clear();
