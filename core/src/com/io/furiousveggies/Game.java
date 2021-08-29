@@ -10,11 +10,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends Stage {
-    private final World world;
     private final Array<Projectile> projectiles;
     private final float scale;
+    private World world;
     private int currentProjectile;
     private float shooterX, shooterSize;
+    private Shooter shooter;
 
     static final float width = 20.0f, height = 10.0f;
 
@@ -80,7 +81,7 @@ public class Game extends Stage {
 
         shooterX = x;
         shooterSize = size;
-        Shooter shooter = new Shooter(body, size);
+        shooter = new Shooter(body, size);
         addActor(shooter);
     }
 
@@ -120,6 +121,8 @@ public class Game extends Stage {
     public void clear(){
         super.clear();
         projectiles.clear();
+        world.dispose();
+        world = new World(new Vector2(0,-10f), true);
         currentProjectile = 0;
         shooterX = shooterSize = 0;
     }
@@ -133,7 +136,7 @@ public class Game extends Stage {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button){
         if (currentProjectile < projectiles.size){
-            projectiles.get(currentProjectile).aim();
+            shooter.aim(projectiles.get(currentProjectile));
         }
         return super.touchDown(screenX, screenY, pointer, button);
     }
@@ -141,8 +144,8 @@ public class Game extends Stage {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button){
         if (currentProjectile < projectiles.size){
-            Projectile projectile = projectiles.get(currentProjectile);
-            projectile.shoot();
+            Projectile projectile;
+            shooter.shoot();
             currentProjectile++;
             if (currentProjectile < projectiles.size) {
                 projectile = projectiles.get(currentProjectile);
