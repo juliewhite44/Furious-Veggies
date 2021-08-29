@@ -74,6 +74,9 @@ public class Model implements Disposable {
 			@Override
 			public void onGameOver() { }
 		});
+		if (currentLevel >= levels.size){
+			currentLevel = 0;
+		}
 		levels.get(currentLevel).accept(game);
 	}
 
