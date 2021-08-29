@@ -1,5 +1,6 @@
 package com.io.furiousveggies;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -53,7 +54,7 @@ public class SimpleElementsFactory implements GameElementsFactory {
 
         box.dispose();
 
-        return new Block(body, size);
+        return new Block(body, size, Gdx.graphics.getWidth());
     }
 
     @Override

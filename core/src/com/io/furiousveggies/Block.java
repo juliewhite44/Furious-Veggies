@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Align;
 public class Block extends Actor {
 	Body body;
 	TransformDrawable texture;
-
+	public static final float scr_width = 20.0f, scr_height = 10.0f;
 	final float scale, size;
 	
 	@Override
@@ -29,15 +29,15 @@ public class Block extends Actor {
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
 	}
 	
-	Block(Body body, float size){
+	public Block(Body body, float size, float screenWidth){
 		this.body = body;
 		this.size = size;
-		scale = Gdx.graphics.getWidth()/Game.width;
-		
+		scale = screenWidth/scr_width;
 		Vector2 pos = body.getPosition();
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
 		setSize(size * scale, size * scale);
 		
-		texture = (TransformDrawable)View.skin.getDrawable("button");
+		if (Gdx.files != null)
+			texture = (TransformDrawable)View.skin.getDrawable("button");
 	}
 }
