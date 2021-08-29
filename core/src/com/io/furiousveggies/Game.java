@@ -63,6 +63,25 @@ public class Game extends Stage {
         addActor(new Block(body, size));
     }
 
+    public void addEnemy(float x, float y, float size) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(x, y);
+
+        Body body = world.createBody(bodyDef);
+
+        PolygonShape box = new PolygonShape();
+        box.setAsBox(0.5f * size, 0.5f * size);
+
+        Fixture fixture = body.createFixture(box, 1.0f);
+        fixture.setRestitution(0);
+        fixture.setFriction(1);
+
+        box.dispose();
+
+        addActor(new Enemy(body, size));
+    }
+
     public void addShooter(float x, float size) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
