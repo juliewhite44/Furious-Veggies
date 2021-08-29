@@ -15,7 +15,7 @@ public class Shooter extends Actor {
 	Body body;
 	TransformDrawable texture;
 
-	static final float widthToHeight = 0.5f;
+	static final float widthToHeight = 0.25f;
 	final float scale, size;
 
 	@Override
@@ -50,7 +50,7 @@ public class Shooter extends Actor {
 
 		Vector2 pos = body.getPosition();
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
-		setSize(size * widthToHeight * scale * 0.9f, size * scale * 2);
+		setSize(size * widthToHeight * scale, size * scale * 2);
 
 		texture = (TransformDrawable)View.skin.getDrawable("split-pane-horizontal");
 	}
@@ -87,7 +87,7 @@ public class Shooter extends Actor {
 
 		@Override
 		public boolean remove(){
-			projectile.shoot((startX - projectile.getX())/10, (startY - projectile.getY())/10);
+			projectile.shoot((startX - projectile.getX())/5, (startY - projectile.getY())/5);
 			return super.remove();
 		}
 	}

@@ -27,10 +27,12 @@ public class Model implements Disposable {
 		game.addProjectile(1f);
 		game.addProjectile(1f);
 		game.addProjectile(1f);
+		/*
 		game.addBox(10f, 2f, 1.5f);
 		game.addEnemy(10f, 5f, 2f);
 		game.addEnemy(13f, 7f, 1f);
 		game.addEnemy(15f, 7f, 1f);
+		*/
 	}
 
 	public Model(){
