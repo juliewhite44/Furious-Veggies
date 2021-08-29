@@ -7,12 +7,16 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends Stage {
     private final Array<Projectile> projectiles;
+    private final ObjectMap<Body, Enemy> enemies;
+    private final Array<Body> defeatedEnemies;
     private final float scale;
     private World world;
+    private Body ground;
     private int currentProjectile;
     private float shooterX, shooterSize;
     private Shooter shooter;
@@ -23,6 +27,8 @@ public class Game extends Stage {
         super(viewport, batch);
         world = new World(new Vector2(0,-10f), true);
         projectiles = new Array<Projectile>();
+        enemies = new ObjectMap<Body, Enemy>();
+        defeatedEnemies = new Array<Body>();
         scale = Gdx.graphics.getWidth()/width;
         clear();
     }
@@ -32,12 +38,12 @@ public class Game extends Stage {
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(0, -0.5f);
 
-        Body body = world.createBody(bodyDef);
+        ground = world.createBody(bodyDef);
 
         PolygonShape box = new PolygonShape();
         box.setAsBox(width, 0.6f);
 
-        Fixture fixture = body.createFixture(box, 0.0f);
+        Fixture fixture = ground.createFixture(box, 0.0f);
         fixture.setRestitution(0);
         fixture.setFriction(1);
 
@@ -79,7 +85,9 @@ public class Game extends Stage {
 
         box.dispose();
 
-        addActor(new Enemy(body, size));
+        Enemy enemy = new Enemy(body, size);
+        addActor(enemy);
+        enemies.put(body, enemy);
     }
 
     public void addShooter(float x, float size) {
@@ -133,6 +141,9 @@ public class Game extends Stage {
     @Override
     public void act(float delta){
         super.act(delta);
+        while (defeatedEnemies.size > 0){
+            world.destroyBody(defeatedEnemies.pop());
+        }
         world.step(1.0f/60.0f, 8, 6);
     }
 
@@ -140,8 +151,35 @@ public class Game extends Stage {
     public void clear(){
         super.clear();
         projectiles.clear();
+        enemies.clear();
+        defeatedEnemies.clear();
         world.dispose();
         world = new World(new Vector2(0,-10f), true);
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                Body bodyA = contact.getFixtureA().getBody();
+                Body bodyB = contact.getFixtureB().getBody();
+                if (bodyB == ground){
+                    bodyA = contact.getFixtureB().getBody();
+                    bodyB = contact.getFixtureA().getBody();
+                }
+                if (bodyA == ground && enemies.containsKey(bodyB)){
+                    enemies.get(bodyB).defeated();
+                    enemies.remove(bodyB);
+                    defeatedEnemies.add(bodyB);
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) { }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) { }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) { }
+        });
         currentProjectile = 0;
         shooterX = shooterSize = 0;
     }
