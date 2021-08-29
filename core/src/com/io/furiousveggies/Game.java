@@ -17,6 +17,7 @@ public class Game extends Stage {
     private final float scale;
     private World world;
     private Body ground;
+    private GameResultListener resultListener;
     private int currentProjectile;
     private float shooterX, shooterSize;
     private Shooter shooter;
@@ -30,7 +31,18 @@ public class Game extends Stage {
         enemies = new ObjectMap<Body, Enemy>();
         defeatedEnemies = new Array<Body>();
         scale = Gdx.graphics.getWidth()/width;
+        resultListener = new GameResultListener() {
+            @Override
+            public void onGameWin() { }
+
+            @Override
+            public void onGameOver() { }
+        };
         clear();
+    }
+
+    public void setResultListener(GameResultListener resultListener){
+        this.resultListener = resultListener;
     }
 
     public void addGround() {
@@ -41,7 +53,7 @@ public class Game extends Stage {
         ground = world.createBody(bodyDef);
 
         PolygonShape box = new PolygonShape();
-        box.setAsBox(width, 0.6f);
+        box.setAsBox(width * 2, 0.6f);
 
         Fixture fixture = ground.createFixture(box, 0.0f);
         fixture.setRestitution(0);
@@ -143,6 +155,13 @@ public class Game extends Stage {
         super.act(delta);
         while (defeatedEnemies.size > 0){
             world.destroyBody(defeatedEnemies.pop());
+        }
+        if (enemies.size == 0){
+            currentProjectile = projectiles.size;
+            resultListener.onGameWin();
+        }
+        else if (currentProjectile == projectiles.size){
+            resultListener.onGameOver();
         }
         world.step(1.0f/60.0f, 8, 6);
     }
