@@ -103,7 +103,7 @@ public class View implements Disposable {
 		
 		menu = new Stage(viewport, batch);
 		settings = new Stage(viewport, batch);
-		game = new Game(viewport, batch);
+		game = new Game(viewport, batch, new SimpleElementsFactory());
 		
 		current = menu;
 	}

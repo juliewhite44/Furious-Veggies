@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends Stage {
+    private final GameElementsFactory elementsFactory;
     private final Array<Projectile> projectiles;
     private final ObjectMap<Body, Enemy> enemies;
     private final Array<Body> defeatedEnemies;
@@ -25,8 +26,9 @@ public class Game extends Stage {
 
     static final float width = 20.0f, height = 10.0f;
 
-    public Game(Viewport viewport, Batch batch){
+    public Game(Viewport viewport, Batch batch, GameElementsFactory elementsFactory){
         super(viewport, batch);
+        this.elementsFactory = elementsFactory;
         world = new World(new Vector2(0,-10f), true);
         projectiles = new Array<Projectile>();
         enemies = new ObjectMap<Body, Enemy>();
@@ -47,106 +49,35 @@ public class Game extends Stage {
     }
 
     public void addGround() {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(0, -0.5f);
-
-        ground = world.createBody(bodyDef);
-
-        PolygonShape box = new PolygonShape();
-        box.setAsBox(width * 2, 0.6f);
-
-        Fixture fixture = ground.createFixture(box, 0.0f);
-        fixture.setRestitution(0);
-        fixture.setFriction(1);
-
-        box.dispose();
+        ground = elementsFactory.createGround(world, width * 2);
     }
 
     public void addBox(float x, float y, float size) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x, y);
-
-        Body body = world.createBody(bodyDef);
-
-        PolygonShape box = new PolygonShape();
-        box.setAsBox(0.5f * size, 0.5f * size);
-
-        Fixture fixture = body.createFixture(box, 1.0f);
-        fixture.setRestitution(0);
-        fixture.setFriction(1);
-
-        box.dispose();
-
-        addActor(new Block(body, size));
+        addActor(elementsFactory.createBox(world, x, y, size));
     }
 
     public void addEnemy(float x, float y, float size) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x, y);
-
-        Body body = world.createBody(bodyDef);
-
-        PolygonShape box = new PolygonShape();
-        box.setAsBox(0.5f * size, 0.5f * size);
-
-        Fixture fixture = body.createFixture(box, 1.0f);
-        fixture.setRestitution(0);
-        fixture.setFriction(1);
-
-        box.dispose();
-
-        Enemy enemy = new Enemy(body, size);
+        Enemy enemy = elementsFactory.createEnemy(world, x, y, size);
         addActor(enemy);
-        enemies.put(body, enemy);
+        enemies.put(enemy.body, enemy);
     }
 
     public void addShooter(float x, float size) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(x, size/2);
-
-        Body body = world.createBody(bodyDef);
-
-        PolygonShape box = new PolygonShape();
-        box.setAsBox(0.5f * size * Shooter.widthToHeight, 0.5f * size);
-
-        Fixture fixture = body.createFixture(box, 1.0f);
-        fixture.setRestitution(0);
-        fixture.setFriction(1);
-
-        box.dispose();
-
         shooterX = x;
         shooterSize = size;
-        shooter = new Shooter(body, size);
+        shooter = elementsFactory.createShooter(world, x, size);
         addActor(shooter);
     }
 
     public void addProjectile(float size){
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        Projectile projectile;
         if (projectiles.size == 0){
-            bodyDef.position.set(shooterX - size / 2, shooterSize * 1.5f);
+            projectile = elementsFactory.createProjectile(world, shooterX - size / 2, shooterSize * 1.5f, size);
         }
         else {
-            bodyDef.position.set(shooterX - 1.5f * size * projectiles.size - size / 2, 0);
+            projectile = elementsFactory.createProjectile(world, shooterX - 1.5f * size * projectiles.size - size / 2, 0, size);
         }
 
-        Body body = world.createBody(bodyDef);
-
-        CircleShape box = new CircleShape();
-        box.setRadius(0.5f * size);
-
-        Fixture fixture = body.createFixture(box, 1.0f);
-        fixture.setRestitution(0);
-        fixture.setFriction(1);
-
-        box.dispose();
-
-        Projectile projectile = new Projectile(body, size);
         addActor(projectile);
         projectiles.add(projectile);
     }
@@ -170,16 +101,7 @@ public class Game extends Stage {
     @Override
     public void clear(){
         super.clear();
-
-        Table root = new Table();
-        root.setFillParent(true);
-        addActor(root);
-
-        Table mainTable = new Table(View.skin);
-        mainTable.setBackground("window-round");
-
-        root.add(mainTable).grow().pad(0);
-
+        elementsFactory.prepareGame(this);
         projectiles.clear();
         enemies.clear();
         defeatedEnemies.clear();
