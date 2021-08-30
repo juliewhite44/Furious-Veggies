@@ -8,14 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class Controller {
-	private Model model;
+	private Levels levels;
 	private View view;
 	
 	public final ChangeListener
 		menu_button_game = new ChangeListener() {
 	        @Override
 	        public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-	        	model.startGame(view.createGame());
+	        	levels.startGame(view.createGame());
 	        	Gdx.input.setInputProcessor(view.setGame());
 	        }
 	    },
@@ -35,11 +35,11 @@ public class Controller {
     };
     
 	
-	public Controller(Model model, View view) {
-		this.model = model;
+	public Controller(Levels levels, View view) {
+		this.levels = levels;
 		this.view = view;
 		view.controller = this;
-		model.controller = this;
+		levels.controller = this;
 		
 		Gdx.input.setInputProcessor(view.setMenu());
 	}
@@ -50,9 +50,5 @@ public class Controller {
 
 	public ChangeListener getMenu_button_settings() {
 		return menu_button_settings;
-	}
-
-	public Model getModel() {
-		return model;
 	}
 }
