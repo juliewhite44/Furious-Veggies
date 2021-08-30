@@ -13,7 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.io.furiousveggies.skins.Pixthulhu;
-import com.io.furiousveggies.skins.Skin;
+import com.io.furiousveggies.skins.Rural;
+import com.io.furiousveggies.skins.SkinWrapper;
 
 public class View implements Disposable {
 	private OrthographicCamera cam;
@@ -21,7 +22,7 @@ public class View implements Disposable {
 	private Game game;
 	private Stage menu, settings, current;
 	Controller controller;
-	final static Skin skin = new Pixthulhu();
+	final static SkinWrapper skin = new Rural();
 	private float width, height;
 	
 	//draw current stage
@@ -106,7 +107,7 @@ public class View implements Disposable {
 		
 		menu = new Stage(viewport, batch);
 		settings = new Stage(viewport, batch);
-		game = new Game(viewport, batch, new SimpleElementsFactory(new Pixthulhu()));
+		game = new Game(viewport, batch, new SimpleElementsFactory(skin));
 		
 		current = menu;
 	}

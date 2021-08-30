@@ -2,12 +2,12 @@ package com.io.furiousveggies;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.io.furiousveggies.skins.Skin;
+import com.io.furiousveggies.skins.SkinWrapper;
 
 public class SimpleElementsFactory implements GameElementsFactory {
-    Skin skin;
+    SkinWrapper skin;
 
-    public SimpleElementsFactory(Skin skin){
+    public SimpleElementsFactory(SkinWrapper skin){
         this.skin = skin;
     }
 

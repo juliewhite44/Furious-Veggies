@@ -1,0 +1,73 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	Drift: {
+		file: Drift.fnt
+	}
+	Kingthings_Annexx: {
+		file: Kingthings Annexx.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	RGBA_0_0_0_255: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	RGBA_160_255_149_255: {
+		r: 0.6301815
+		g: 1
+		b: 0.5866667
+		a: 1
+	}
+	RGBA_22_83_42_255: {
+		r: 0.08819999
+		g: 0.32666665
+		b: 0.1677286
+		a: 1
+	}
+	RGBA_255_255_255_255: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+	RGBA_255_76_76_255: {
+		r: 1
+		g: 0.3
+		b: 0.3
+		a: 1
+	}
+	RGBA_50_59_111_255: {
+		r: 0.19650002
+		g: 0.23269859
+		b: 0.43666667
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: Drift
+	}
+	title: {
+		font: Kingthings_Annexx
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: Drift
+		up: button
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: field-medium-bleak
+		titleFont: Kingthings_Annexx
+	}
+}
+}

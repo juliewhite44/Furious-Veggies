@@ -1,10 +1,11 @@
 package com.io.furiousveggies.skins;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.Disposable;
 
-public interface Skin extends Disposable {
+public interface SkinWrapper extends Disposable {
     TransformDrawable boxDrawable();
     TransformDrawable enemyDrawable();
     TransformDrawable projectileDrawable();
@@ -14,5 +15,5 @@ public interface Skin extends Disposable {
     String settingsBackgroundName();
     Color backgroundColor();
     Color shooterRopeColor();
-    com.badlogic.gdx.scenes.scene2d.ui.Skin getSkin();
+    Skin getSkin();
 }

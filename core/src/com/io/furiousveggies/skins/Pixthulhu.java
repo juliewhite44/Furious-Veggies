@@ -2,13 +2,14 @@ package com.io.furiousveggies.skins;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 
-public class Pixthulhu implements Skin{
-    private final com.badlogic.gdx.scenes.scene2d.ui.Skin skin;
+public class Pixthulhu implements SkinWrapper {
+    private final Skin skin;
 
     public Pixthulhu(){
-        skin = new com.badlogic.gdx.scenes.scene2d.ui.Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+        skin = new Skin(Gdx.files.internal("skin/pixthulhu/pixthulhu-ui.json"));
     }
 
     @Override

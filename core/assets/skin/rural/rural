@@ -1,0 +1,21 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	Admiration_Pains: {
+		file: Admiration Pains.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	RGBA_255_87_87_255: {
+		r: 1
+		g: 0.3433333
+		b: 0.3433333
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: field
+		titleFont: Admiration_Pains
+	}
+}
+}
