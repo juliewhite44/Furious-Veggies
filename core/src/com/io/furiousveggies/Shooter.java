@@ -42,6 +42,10 @@ public class Shooter extends Actor {
 		rope = null;
 	}
 
+	public boolean loaded(){
+		return rope != null;
+	}
+
 	Shooter(Body body, float size){
 		this.body = body;
 		this.size = size;

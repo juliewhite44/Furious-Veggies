@@ -90,6 +90,9 @@ public class Game extends Stage {
         }
         if (enemies.size == 0){
             currentProjectile = projectiles.size;
+            if (shooter.loaded()){
+                shooter.shoot();
+            }
             resultListener.onGameWin();
         }
         else if (currentProjectile == projectiles.size){
@@ -152,7 +155,7 @@ public class Game extends Stage {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button){
-        if (currentProjectile < projectiles.size){
+        if (shooter.loaded() && currentProjectile < projectiles.size){
             Projectile projectile;
             shooter.shoot();
             currentProjectile++;
