@@ -13,7 +13,12 @@ public class Pixthulhu implements SkinWrapper {
     }
 
     @Override
-    public com.badlogic.gdx.scenes.scene2d.ui.Skin getSkin(){
+    public String toString(){
+        return "pixthulhu";
+    }
+
+    @Override
+    public Skin getSkin(){
         return skin;
     }
 

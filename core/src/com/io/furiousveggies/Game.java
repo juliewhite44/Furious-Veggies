@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends Stage {
-    private final GameElementsFactory elementsFactory;
+    private GameElementsFactory elementsFactory;
     private final Array<Projectile> projectiles;
     private final ObjectMap<Body, Enemy> enemies;
     private final Array<Body> defeatedEnemies;
@@ -42,6 +42,10 @@ public class Game extends Stage {
             public void onGameOver() { }
         };
         clear();
+    }
+
+    public void setElementsFactory(GameElementsFactory elementsFactory){
+        this.elementsFactory = elementsFactory;
     }
 
     public void setResultListener(GameResultListener resultListener){

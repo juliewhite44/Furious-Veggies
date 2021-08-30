@@ -6,10 +6,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.io.furiousveggies.skins.Pixthulhu;
@@ -22,7 +25,8 @@ public class View implements Disposable {
 	private Game game;
 	private Stage menu, settings, current;
 	Controller controller;
-	final static SkinWrapper skin = new Rural();
+	private Array<SkinWrapper> skins;
+	private SkinWrapper skin;
 	private float width, height;
 	
 	//draw current stage
@@ -36,11 +40,16 @@ public class View implements Disposable {
 
 	public Game createGame() {
 		game.clear();
+
+		game.dispose();
+		game = new Game(new ScreenViewport(cam), batch, new SimpleElementsFactory(skin));
+
 		game.addListener(controller.game_esc);
 		return game;
 	}
 
 	public void createSettings() {
+		settings.clear();
 		settings.addListener(controller.game_esc);
 		Table root = new Table();
 		root.setFillParent(true);
@@ -50,6 +59,24 @@ public class View implements Disposable {
 		mainTable.setBackground(skin.settingsBackgroundName());
 
 		root.add(mainTable).grow().pad(0);
+
+		Label title = new Label("Skin", skin.getSkin());
+		mainTable.add(title).expand().center().padTop(height/100);
+		mainTable.row();
+
+		Table subtable = new Table();
+		for (SkinWrapper skinWrapper : skins){
+			TextButton changeSkin = new TextButton(skinWrapper.toString(), skin.getSkin());
+			changeSkin.addListener(new ChangeListener() {
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					skin = skinWrapper;
+					game.setElementsFactory(new SimpleElementsFactory(skin));
+				}
+			});
+			subtable.add(changeSkin).grow().padLeft(width/100).padTop(height/100).padRight(width/100);
+		}
+		mainTable.add(subtable).grow().padRight(0);
 	}
 	
 	public InputProcessor setMenu() {
@@ -104,6 +131,11 @@ public class View implements Disposable {
 		batch = new SpriteBatch();
 		
 		ScreenViewport viewport = new ScreenViewport(cam);
+
+		skins = new Array<SkinWrapper>();
+		skins.add(new Rural());
+		skins.add(new Pixthulhu());
+		skin = skins.get(0);
 		
 		menu = new Stage(viewport, batch);
 		settings = new Stage(viewport, batch);
@@ -118,6 +150,8 @@ public class View implements Disposable {
 		menu.dispose();
 		settings.dispose();
 		game.dispose();
-		skin.dispose();
+		for (int i = 0; i < skins.size; i++){
+			skins.get(i).dispose();
+		}
 	}
 }

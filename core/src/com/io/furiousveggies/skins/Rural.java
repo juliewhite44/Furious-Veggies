@@ -13,6 +13,11 @@ public class Rural implements SkinWrapper {
     }
 
     @Override
+    public String toString(){
+        return "rural";
+    }
+
+    @Override
     public TransformDrawable boxDrawable(){
         return (TransformDrawable)skin.getDrawable("crate");
     }
@@ -58,7 +63,7 @@ public class Rural implements SkinWrapper {
     }
 
     @Override
-    public com.badlogic.gdx.scenes.scene2d.ui.Skin getSkin(){
+    public Skin getSkin(){
         return skin;
     }
 
