@@ -38,9 +38,10 @@ public class Projectile extends Actor {
         body.applyLinearImpulse(impulseX, impulseY, pos.x, pos.y, true);
     }
 
-    Projectile(Body body, float size){
+    Projectile(Body body, float size, TransformDrawable texture){
         this.body = body;
         this.size = size;
+        this.texture = texture;
         body.setBullet(true);
         body.setActive(false);
         scale = Gdx.graphics.getWidth()/Game.width;
@@ -48,7 +49,5 @@ public class Projectile extends Actor {
         Vector2 pos = body.getPosition();
         setPosition(pos.x * scale, pos.y * scale, Align.center);
         setSize(size * scale, size * scale);
-
-        texture = (TransformDrawable)View.skin.getDrawable("logo");
     }
 }

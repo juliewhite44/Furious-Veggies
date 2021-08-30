@@ -29,15 +29,14 @@ public class Block extends Actor {
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
 	}
 	
-	Block(Body body, float size){
+	Block(Body body, float size, TransformDrawable texture){
 		this.body = body;
 		this.size = size;
+		this.texture = texture;
 		scale = Gdx.graphics.getWidth()/Game.width;
 		
 		Vector2 pos = body.getPosition();
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
 		setSize(size * scale, size * scale);
-		
-		texture = (TransformDrawable)View.skin.getDrawable("button");
 	}
 }

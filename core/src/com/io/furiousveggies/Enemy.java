@@ -41,15 +41,14 @@ public class Enemy extends Actor {
 		));
 	}
 
-	Enemy(Body body, float size){
+	Enemy(Body body, float size, TransformDrawable texture){
 		this.body = body;
 		this.size = size;
+		this.texture = texture;
 		scale = Gdx.graphics.getWidth()/Game.width;
 
 		Vector2 pos = body.getPosition();
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
 		setSize(size * scale, size * scale);
-
-		texture = (TransformDrawable)View.skin.getDrawable("pixthulhu");
 	}
 }

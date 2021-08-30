@@ -2,16 +2,23 @@ package com.io.furiousveggies;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.io.furiousveggies.skins.Skin;
 
 public class SimpleElementsFactory implements GameElementsFactory {
+    Skin skin;
+
+    public SimpleElementsFactory(Skin skin){
+        this.skin = skin;
+    }
+
     @Override
     public void prepareGame(Game game){
         Table root = new Table();
         root.setFillParent(true);
         game.addActor(root);
 
-        Table mainTable = new Table(View.skin);
-        mainTable.setBackground("window-round");
+        Table mainTable = new Table(skin.getSkin());
+        mainTable.setBackground(skin.gameBackgroundName());
 
         root.add(mainTable).grow().pad(0);
     }
@@ -53,7 +60,7 @@ public class SimpleElementsFactory implements GameElementsFactory {
 
         box.dispose();
 
-        return new Block(body, size);
+        return new Block(body, size, skin.boxDrawable());
     }
 
     @Override
@@ -73,7 +80,7 @@ public class SimpleElementsFactory implements GameElementsFactory {
 
         box.dispose();
 
-        return new Enemy(body, size);
+        return new Enemy(body, size, skin.enemyDrawable());
     }
 
     @Override
@@ -93,7 +100,7 @@ public class SimpleElementsFactory implements GameElementsFactory {
 
         box.dispose();
 
-        return new Projectile(body, size);
+        return new Projectile(body, size, skin.projectileDrawable());
     }
 
     @Override
@@ -113,6 +120,6 @@ public class SimpleElementsFactory implements GameElementsFactory {
 
         box.dispose();
 
-        return new Shooter(body, size);
+        return new Shooter(body, size, skin.shooterDrawable(), skin.shooterRopeColor());
     }
 }

@@ -1,6 +1,7 @@
 package com.io.furiousveggies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 
 public class Shooter extends Actor {
 	private Rope rope;
+	private Color ropeColor;
 
 	Body body;
 	TransformDrawable texture;
@@ -32,7 +34,7 @@ public class Shooter extends Actor {
 	}
 
 	public void aim(Projectile projectile){
-		rope = new Rope(projectile, getX() + getWidth() / 2, getY() + getHeight() - projectile.getHeight() / 2);
+		rope = new Rope(projectile, getX() + getWidth() / 2, getY() + getHeight() - projectile.getHeight() / 2, ropeColor);
 		getStage().addActor(rope);
 	}
 
@@ -46,26 +48,28 @@ public class Shooter extends Actor {
 		return rope != null;
 	}
 
-	Shooter(Body body, float size){
+	Shooter(Body body, float size, TransformDrawable texture, Color ropeColor){
 		this.body = body;
 		this.size = size;
+		this.texture = texture;
+		this.ropeColor = ropeColor;
 		scale = Gdx.graphics.getWidth()/Game.width;
 		rope = null;
 
 		Vector2 pos = body.getPosition();
 		setPosition(pos.x * scale, pos.y * scale, Align.center);
 		setSize(size * widthToHeight * scale, size * scale * 2);
-
-		texture = (TransformDrawable)View.skin.getDrawable("split-pane-horizontal");
 	}
 
 	private class Rope extends Actor {
 		private final Projectile projectile;
 		private final float startX, startY, endX, endY;
 		private final ShapeRenderer shape;
+		private final Color color;
 
-		Rope(Projectile projectile, float x, float y){
+		Rope(Projectile projectile, float x, float y, Color color){
 			this.projectile = projectile;
+			this.color = color;
 			startX = projectile.getX();
 			startY = projectile.getY();
 			endX = x;
@@ -78,7 +82,7 @@ public class Shooter extends Actor {
 			batch.end();
 			Gdx.gl.glLineWidth(3);
 			shape.begin(ShapeRenderer.ShapeType.Line);
-			shape.setColor(0.3f, 0.5f, 0.5f, 1);
+			shape.setColor(color.r, color.g, color.b, color.a);
 			shape.line(projectile.getX() + projectile.getWidth() / 2, projectile.getY() + projectile.getHeight() / 2, endX, endY);
 			shape.end();
 			batch.begin();
