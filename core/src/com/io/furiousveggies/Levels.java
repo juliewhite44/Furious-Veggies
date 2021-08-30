@@ -1,15 +1,11 @@
 package com.io.furiousveggies;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
 
 import java.util.function.Consumer;
 
-public class Model implements Disposable {
+public class Levels {
 	Controller controller;
 	private Game game;
 	private Array<Consumer<Game>> levels;
@@ -80,14 +76,10 @@ public class Model implements Disposable {
 		levels.get(currentLevel).accept(game);
 	}
 
-	public Model(){
+	public Levels(){
 		levels = new Array<>();
 		levels.add(this::level1);
 		levels.add(this::level2);
 		currentLevel = 0;
-	}
-
-	@Override
-	public void dispose() {
 	}
 }

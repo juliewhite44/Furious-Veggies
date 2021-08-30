@@ -5,15 +5,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class FuriousVeggies extends ApplicationAdapter {
-	private Model model;
+	private Levels levels;
 	private View view;
 	private Controller controller;
 	
 	@Override
 	public void create () {
-		model = new Model();
+		levels = new Levels();
 		view = new View();
-		controller = new Controller(model, view);
+		controller = new Controller(levels, view);
 		
 		view.createMenu();
 		view.createSettings();
@@ -22,13 +22,12 @@ public class FuriousVeggies extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		model.act();
+		levels.act();
 		view.draw();
 	}
 	
 	@Override
 	public void dispose () {
-		model.dispose();
 		view.dispose();
 	}
 }
