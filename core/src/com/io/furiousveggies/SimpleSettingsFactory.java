@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
+import com.io.furiousveggies.settings.Settings;
+import com.io.furiousveggies.settings.SettingsElementsFactory;
 import com.io.furiousveggies.skins.SkinWrapper;
 
 import java.util.function.IntFunction;
@@ -46,5 +48,6 @@ public class SimpleSettingsFactory implements SettingsElementsFactory{
 			subtable.add(button).grow().padLeft(horizontalPadding).padTop(verticalPadding).padRight(horizontalPadding);
 		}
 		mainTable.add(subtable).grow().padRight(0);
+		mainTable.row();
     }
 }

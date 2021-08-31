@@ -1,4 +1,4 @@
-package com.io.furiousveggies;
+package com.io.furiousveggies.settings;
 
 import com.io.furiousveggies.skins.SkinWrapper;
 

@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.io.furiousveggies.game.Game;
+import com.io.furiousveggies.settings.Settings;
+import com.io.furiousveggies.settings.SettingsChangeListener;
 import com.io.furiousveggies.skins.SkinWrapper;
 
 public class View implements Disposable {
