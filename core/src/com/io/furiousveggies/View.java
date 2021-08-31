@@ -72,6 +72,7 @@ public class View implements Disposable {
 				public void changed(ChangeEvent event, Actor actor) {
 					skin = skinWrapper;
 					game.setElementsFactory(new SimpleElementsFactory(skin));
+					createSettings();
 				}
 			});
 			subtable.add(changeSkin).grow().padLeft(width/100).padTop(height/100).padRight(width/100);
@@ -80,6 +81,7 @@ public class View implements Disposable {
 	}
 	
 	public InputProcessor setMenu() {
+		createMenu();
 		return current = menu;
 	}
 	
@@ -88,6 +90,7 @@ public class View implements Disposable {
 	}
 	
 	public InputProcessor setSettings() {
+		createSettings();
 		return current = settings;
 	}
 
