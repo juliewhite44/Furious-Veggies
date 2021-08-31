@@ -6,26 +6,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.io.furiousveggies.skins.Pixthulhu;
-import com.io.furiousveggies.skins.Rural;
 import com.io.furiousveggies.skins.SkinWrapper;
 
 public class View implements Disposable {
 	private OrthographicCamera cam;
 	private SpriteBatch batch;
 	private Game game;
-	private Stage menu, settings, current;
+	private Settings settings;
+	private Stage menu, current;
 	Controller controller;
-	private Array<SkinWrapper> skins;
 	private SkinWrapper skin;
 	private float width, height;
 	
@@ -39,11 +34,8 @@ public class View implements Disposable {
 
 
 	public Game createGame() {
+		game.setElementsFactory(new SimpleGameFactory(skin));
 		game.clear();
-
-		game.dispose();
-		game = new Game(new ScreenViewport(cam), batch, new SimpleElementsFactory(skin));
-
 		game.addListener(controller.game_esc);
 		return game;
 	}
@@ -51,33 +43,15 @@ public class View implements Disposable {
 	public void createSettings() {
 		settings.clear();
 		settings.addListener(controller.game_esc);
-		Table root = new Table();
-		root.setFillParent(true);
-		settings.addActor(root);
-
-		Table mainTable = new Table(skin.getSkin());
-		mainTable.setBackground(skin.settingsBackgroundName());
-
-		root.add(mainTable).grow().pad(0);
-
-		Label title = new Label("Skin", skin.getSkin());
-		mainTable.add(title).expand().center().padTop(height/100);
-		mainTable.row();
-
-		Table subtable = new Table();
-		for (SkinWrapper skinWrapper : skins){
-			TextButton changeSkin = new TextButton(skinWrapper.toString(), skin.getSkin());
-			changeSkin.addListener(new ChangeListener() {
-				@Override
-				public void changed(ChangeEvent event, Actor actor) {
-					skin = skinWrapper;
-					game.setElementsFactory(new SimpleElementsFactory(skin));
-					createSettings();
-				}
-			});
-			subtable.add(changeSkin).grow().padLeft(width/100).padTop(height/100).padRight(width/100);
-		}
-		mainTable.add(subtable).grow().padRight(0);
+		settings.setChangeListener(new SettingsChangeListener() {
+			@Override
+			public void onSkinChanged(SkinWrapper newSkin) {
+				skin = newSkin;
+				game.setElementsFactory(new SimpleGameFactory(skin));
+				settings.setElementsFactory(new SimpleSettingsFactory(skin, height/100, width/100));
+				createSettings();
+			}
+		});
 	}
 	
 	public InputProcessor setMenu() {
@@ -134,15 +108,12 @@ public class View implements Disposable {
 		batch = new SpriteBatch();
 		
 		ScreenViewport viewport = new ScreenViewport(cam);
-
-		skins = new Array<SkinWrapper>();
-		skins.add(new Rural());
-		skins.add(new Pixthulhu());
-		skin = skins.get(0);
 		
 		menu = new Stage(viewport, batch);
-		settings = new Stage(viewport, batch);
-		game = new Game(viewport, batch, new SimpleElementsFactory(skin));
+		settings = new Settings(viewport, batch, null);
+		skin = settings.getDefaultSkin();
+		settings.setElementsFactory(new SimpleSettingsFactory(skin, height/100, width/100));
+		game = new Game(viewport, batch, new SimpleGameFactory(skin));
 		
 		current = menu;
 	}
@@ -153,8 +124,5 @@ public class View implements Disposable {
 		menu.dispose();
 		settings.dispose();
 		game.dispose();
-		for (int i = 0; i < skins.size; i++){
-			skins.get(i).dispose();
-		}
 	}
 }

@@ -5,10 +5,10 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.io.furiousveggies.skins.SkinWrapper;
 
-public class SimpleElementsFactory implements GameElementsFactory {
-    SkinWrapper skin;
+public class SimpleGameFactory implements GameElementsFactory {
+    private final SkinWrapper skin;
 
-    public SimpleElementsFactory(SkinWrapper skin){
+    public SimpleGameFactory(SkinWrapper skin){
         this.skin = skin;
     }
 
