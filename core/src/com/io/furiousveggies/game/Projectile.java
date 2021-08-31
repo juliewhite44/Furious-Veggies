@@ -1,4 +1,4 @@
-package com.io.furiousveggies;
+package com.io.furiousveggies.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -38,7 +38,7 @@ public class Projectile extends Actor {
         body.applyLinearImpulse(impulseX, impulseY, pos.x, pos.y, true);
     }
 
-    Projectile(Body body, float size, TransformDrawable texture){
+    public Projectile(Body body, float size, TransformDrawable texture){
         this.body = body;
         this.size = size;
         this.texture = texture;

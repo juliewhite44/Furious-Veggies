@@ -1,4 +1,4 @@
-package com.io.furiousveggies;
+package com.io.furiousveggies.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -17,7 +17,7 @@ public class Shooter extends Actor {
 	Body body;
 	TransformDrawable texture;
 
-	static final float widthToHeight = 0.25f;
+	public static final float widthToHeight = 0.25f;
 	final float scale, size;
 
 	@Override
@@ -48,7 +48,7 @@ public class Shooter extends Actor {
 		return rope != null;
 	}
 
-	Shooter(Body body, float size, TransformDrawable texture, Color ropeColor){
+	public Shooter(Body body, float size, TransformDrawable texture, Color ropeColor){
 		this.body = body;
 		this.size = size;
 		this.texture = texture;

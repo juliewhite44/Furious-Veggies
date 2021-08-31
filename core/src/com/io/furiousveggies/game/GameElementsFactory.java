@@ -1,4 +1,4 @@
-package com.io.furiousveggies;
+package com.io.furiousveggies.game;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;

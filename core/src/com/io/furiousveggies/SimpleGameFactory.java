@@ -3,6 +3,7 @@ package com.io.furiousveggies;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.io.furiousveggies.game.*;
 import com.io.furiousveggies.skins.SkinWrapper;
 
 public class SimpleGameFactory implements GameElementsFactory {
