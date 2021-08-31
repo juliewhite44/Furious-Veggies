@@ -10,7 +10,7 @@ buildscript {
     }
     
 	dependencies {
-		
+	
 	}
 	
 }
@@ -70,14 +70,11 @@ project(":core") {
 
 
     dependencies {
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         testImplementation "org.junit.jupiter:junit-jupiter-api:5.+"
-        testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-		testImplementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        testImplementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.+'
     	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.+'
     }
     

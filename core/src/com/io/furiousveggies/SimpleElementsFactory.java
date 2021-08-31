@@ -1,5 +1,6 @@
 package com.io.furiousveggies;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.io.furiousveggies.skins.SkinWrapper;
@@ -60,7 +61,7 @@ public class SimpleElementsFactory implements GameElementsFactory {
 
         box.dispose();
 
-        return new Block(body, size, skin.boxDrawable());
+        return new Block(body, size, Gdx.graphics.getWidth(), skin.boxDrawable());
     }
 
     @Override

@@ -24,7 +24,7 @@ public class Game extends Stage {
     private float shooterX, shooterSize;
     private Shooter shooter;
 
-    static final float width = 20.0f, height = 10.0f;
+    public static final float width = 20.0f, height = 10.0f;
 
     public Game(Viewport viewport, Batch batch, GameElementsFactory elementsFactory){
         super(viewport, batch);
