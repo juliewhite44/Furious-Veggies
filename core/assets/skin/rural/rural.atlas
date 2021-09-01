@@ -1,0 +1,79 @@
+
+rural.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+Drift
+  rotate: false
+  xy: 803, 1003
+  size: 503, 500
+  orig: 503, 500
+  offset: 0, 0
+  index: -1
+Kingthings Annexx_0
+  rotate: false
+  xy: 803, 1505
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+Kingthings Annexx_1
+  rotate: false
+  xy: 1, 227
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 1, 25
+  size: 200, 200
+  split: 81, 88, 78, 76
+  pad: 79, 87, 78, 76
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+colorado-beetle
+  rotate: false
+  xy: 1719, 1717
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+crate
+  rotate: false
+  xy: 515, 339
+  size: 397, 400
+  orig: 397, 400
+  offset: 0, 0
+  index: -1
+field-medium
+  rotate: false
+  xy: 1, 1380
+  size: 800, 637
+  orig: 800, 637
+  offset: 0, 0
+  index: -1
+field-medium-bleak
+  rotate: false
+  xy: 1, 741
+  size: 800, 637
+  orig: 800, 637
+  offset: 0, 0
+  index: -1
+plank
+  rotate: false
+  xy: 1308, 1103
+  size: 62, 400
+  split: 0, 0, 0, 0
+  orig: 62, 400
+  offset: 0, 0
+  index: -1
+potato
+  rotate: false
+  xy: 1317, 1617
+  size: 400, 400
+  orig: 400, 400
+  offset: 0, 0
+  index: -1

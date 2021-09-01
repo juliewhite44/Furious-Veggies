@@ -1,12 +1,13 @@
-package com.io.furiousveggies;
+package com.io.furiousveggies.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.io.furiousveggies.Controller;
 
 import java.util.function.Consumer;
 
 public class Levels {
-	Controller controller;
+	public Controller controller;
 	private Game game;
 	private Array<Consumer<Game>> levels;
 	private int currentLevel;

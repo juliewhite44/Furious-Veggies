@@ -1,4 +1,4 @@
-package com.io.furiousveggies;
+package com.io.furiousveggies.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -6,13 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends Stage {
-    private final GameElementsFactory elementsFactory;
+    private GameElementsFactory elementsFactory;
     private final Array<Projectile> projectiles;
     private final ObjectMap<Body, Enemy> enemies;
     private final Array<Body> defeatedEnemies;
@@ -24,7 +23,7 @@ public class Game extends Stage {
     private float shooterX, shooterSize;
     private Shooter shooter;
 
-    static final float width = 20.0f, height = 10.0f;
+    public static final float width = 20.0f, height = 10.0f;
 
     public Game(Viewport viewport, Batch batch, GameElementsFactory elementsFactory){
         super(viewport, batch);
@@ -42,6 +41,10 @@ public class Game extends Stage {
             public void onGameOver() { }
         };
         clear();
+    }
+
+    public void setElementsFactory(GameElementsFactory elementsFactory){
+        this.elementsFactory = elementsFactory;
     }
 
     public void setResultListener(GameResultListener resultListener){
