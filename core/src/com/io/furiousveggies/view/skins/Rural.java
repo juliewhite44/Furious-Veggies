@@ -1,4 +1,4 @@
-package com.io.furiousveggies.skins;
+package com.io.furiousveggies.view.skins;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

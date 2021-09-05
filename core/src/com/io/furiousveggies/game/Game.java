@@ -9,31 +9,35 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.io.furiousveggies.model.*;
+import com.io.furiousveggies.view.*;
 
 public class Game extends Stage {
-    private GameElementsFactory elementsFactory;
+    private GameElementsFactory gameElementsFactory;
     private final Array<Projectile> projectiles;
-    private final ObjectMap<Body, Enemy> enemies;
+    private final ObjectMap<Body, EnemyView> enemies;
     private final Array<Body> defeatedEnemies;
     private final float scale;
     private World world;
     private Body ground;
-    private GameResultListener resultListener;
+    private GameResultListener gameResultListener;
     private int currentProjectile;
     private float shooterX, shooterSize;
     private Shooter shooter;
+    private View view;
 
     public static final float width = 20.0f, height = 10.0f;
 
-    public Game(Viewport viewport, Batch batch, GameElementsFactory elementsFactory){
+    public Game(Viewport viewport, Batch batch, GameElementsFactory gameElementsFactory, View view){
         super(viewport, batch);
-        this.elementsFactory = elementsFactory;
+        this.view = view;
+        this.gameElementsFactory = gameElementsFactory;
         world = new World(new Vector2(0,-10f), true);
-        projectiles = new Array<Projectile>();
-        enemies = new ObjectMap<Body, Enemy>();
-        defeatedEnemies = new Array<Body>();
+        projectiles = new Array<>();
+        enemies = new ObjectMap<>();
+        defeatedEnemies = new Array<>();
         scale = Gdx.graphics.getWidth()/width;
-        resultListener = new GameResultListener() {
+        gameResultListener = new GameResultListener() {
             @Override
             public void onGameWin() { }
 
@@ -43,45 +47,59 @@ public class Game extends Stage {
         clear();
     }
 
-    public void setElementsFactory(GameElementsFactory elementsFactory){
-        this.elementsFactory = elementsFactory;
+    public View getView() {
+        return view;
     }
 
-    public void setResultListener(GameResultListener resultListener){
-        this.resultListener = resultListener;
+    public GameElementsFactory getGameElementsFactory() { return gameElementsFactory; }
+    public void setGameElementsFactory(GameElementsFactory gameElementsFactory){
+        this.gameElementsFactory = gameElementsFactory;
     }
+
+    public void setGameResultListener(GameResultListener gameResultListener){
+        this.gameResultListener = gameResultListener;
+    }
+
 
     public void addGround() {
-        ground = elementsFactory.createGround(world, width * 2);
+        ground = gameElementsFactory.createGround(world, width * 2);
     }
 
-    public void addBox(float x, float y, float size) {
-        addActor(elementsFactory.createBox(world, x, y, size));
+    public void addBox(float x, float y, float size, float scale) {
+        Block block = gameElementsFactory.createBlock(world, x, y, size, scale);
+        BlockView blockView = new BlockView(block, view.getSkinWrapper().boxDrawable());
+        addActor(block);
+        addActor(blockView);
     }
 
-    public void addEnemy(float x, float y, float size) {
-        Enemy enemy = elementsFactory.createEnemy(world, x, y, size);
+    public void addEnemy(float x, float y, float size, float scale) {
+        Enemy enemy = gameElementsFactory.createEnemy(world, x, y, size, scale);
+        EnemyView enemyView = new EnemyView(enemy, view.getSkinWrapper().enemyDrawable());
         addActor(enemy);
-        enemies.put(enemy.body, enemy);
+        addActor(enemyView);
+        enemies.put(enemyView.getEnemy().getBody(), enemyView);
     }
 
-    public void addShooter(float x, float size) {
+    public void addShooter(float x, float size, float scale) {
         shooterX = x;
         shooterSize = size;
-        shooter = elementsFactory.createShooter(world, x, size);
+        shooter = gameElementsFactory.createShooter(world, x, size, scale);
+        ShooterView shooterView = new ShooterView(shooter, view.getSkinWrapper().shooterDrawable());
         addActor(shooter);
+        addActor(shooterView);
     }
 
-    public void addProjectile(float size){
+    public void addProjectile(float size, float scale){
         Projectile projectile;
         if (projectiles.size == 0){
-            projectile = elementsFactory.createProjectile(world, shooterX - size / 2, shooterSize * 1.5f, size);
+            projectile = gameElementsFactory.createProjectile(world, shooterX - size / 2, shooterSize * 1.5f, size, scale);
         }
         else {
-            projectile = elementsFactory.createProjectile(world, shooterX - 1.5f * size * projectiles.size - size / 2, 0, size);
+            projectile = gameElementsFactory.createProjectile(world, shooterX - 1.5f * size * projectiles.size - size / 2, 0, size, scale);
         }
-
+        ProjectileView projectileView = new ProjectileView(projectile, view.getSkinWrapper().projectileDrawable());
         addActor(projectile);
+        addActor(projectileView);
         projectiles.add(projectile);
     }
 
@@ -96,10 +114,10 @@ public class Game extends Stage {
             if (shooter.loaded()){
                 shooter.shoot();
             }
-            resultListener.onGameWin();
+            gameResultListener.onGameWin();
         }
         else if (currentProjectile == projectiles.size){
-            resultListener.onGameOver();
+            gameResultListener.onGameOver();
         }
         world.step(1.0f/60.0f, 8, 6);
     }
@@ -107,7 +125,6 @@ public class Game extends Stage {
     @Override
     public void clear(){
         super.clear();
-        elementsFactory.prepareGame(this);
         projectiles.clear();
         enemies.clear();
         defeatedEnemies.clear();
