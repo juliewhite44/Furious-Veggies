@@ -26,6 +26,8 @@ public class Game extends Stage {
     private Shooter shooter;
     private View view;
 
+    int deleteThis = 0;
+
     public static final float width = 20.0f, height = 10.0f;
 
     public Game(Viewport viewport, Batch batch, GameElementsFactory gameElementsFactory, View view){
@@ -133,6 +135,7 @@ public class Game extends Stage {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
+                deleteThis++;
                 Body bodyA = contact.getFixtureA().getBody();
                 Body bodyB = contact.getFixtureB().getBody();
                 if (bodyB == ground){
