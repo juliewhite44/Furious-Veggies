@@ -3,7 +3,6 @@ package com.io.furiousveggies.model;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Align;
-import com.io.furiousveggies.game.Game;
 import com.io.furiousveggies.view.RopeView;
 
 public class Shooter extends GameElement {

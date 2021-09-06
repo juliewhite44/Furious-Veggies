@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.io.furiousveggies.game.Game;
+import com.io.furiousveggies.model.Game;
 import com.io.furiousveggies.settings.Settings;
 import com.io.furiousveggies.view.View;
 import com.io.furiousveggies.view.skins.SkinWrapper;

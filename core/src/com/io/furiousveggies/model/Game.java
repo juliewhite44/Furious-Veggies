@@ -1,4 +1,4 @@
-package com.io.furiousveggies.game;
+package com.io.furiousveggies.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,15 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.io.furiousveggies.model.*;
 import com.io.furiousveggies.view.*;
 
 public class Game extends Stage {
     private GameElementsFactory gameElementsFactory;
-    private final Array<Projectile> projectiles;
-    private final ObjectMap<Body, EnemyView> enemies;
-    private final Array<Body> defeatedEnemies;
-    private final float scale;
+    private Array<Projectile> projectiles;
+    private ObjectMap<Body, Enemy> enemies;
+    private Array<Body> defeatedEnemies;
+    private float scale;
     private World world;
     private Body ground;
     private GameResultListener gameResultListener;
@@ -67,19 +66,19 @@ public class Game extends Stage {
         ground = gameElementsFactory.createGround(world, width * 2);
     }
 
-    public void addBox(float x, float y, float size, float scale) {
+
+    public Block addBox(float x, float y, float size, float scale) {
         Block block = gameElementsFactory.createBlock(world, x, y, size, scale);
-        BlockView blockView = new BlockView(block, view.getSkinWrapper().boxDrawable());
         addActor(block);
-        addActor(blockView);
+        return block;
     }
 
-    public void addEnemy(float x, float y, float size, float scale) {
+
+    public Enemy addEnemy(float x, float y, float size, float scale) {
         Enemy enemy = gameElementsFactory.createEnemy(world, x, y, size, scale);
-        EnemyView enemyView = new EnemyView(enemy, view.getSkinWrapper().enemyDrawable());
         addActor(enemy);
-        addActor(enemyView);
-        enemies.put(enemyView.getEnemy().getBody(), enemyView);
+        enemies.put(enemy.getBody(), enemy);
+        return enemy;
     }
 
     public void addShooter(float x, float size, float scale) {
@@ -103,6 +102,10 @@ public class Game extends Stage {
         addActor(projectile);
         addActor(projectileView);
         projectiles.add(projectile);
+    }
+
+    public Array<Body> getDefeatedEnemies() {
+        return defeatedEnemies;
     }
 
     @Override
@@ -143,7 +146,6 @@ public class Game extends Stage {
                     bodyB = contact.getFixtureA().getBody();
                 }
                 if (bodyA == ground && enemies.containsKey(bodyB)){
-                    enemies.get(bodyB).defeated();
                     enemies.remove(bodyB);
                     defeatedEnemies.add(bodyB);
                 }

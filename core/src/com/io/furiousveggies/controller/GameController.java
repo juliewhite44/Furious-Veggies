@@ -1,23 +1,40 @@
 package com.io.furiousveggies.controller;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.io.furiousveggies.game.GameResultListener;
-import com.io.furiousveggies.model.Levels;
-import com.io.furiousveggies.game.Game;
+import com.io.furiousveggies.model.*;
+import com.io.furiousveggies.view.GameView;
 
-public class LevelsController {
+public class GameController {
 
 	private Controller controller;
 	private Levels levels;
 	private int currentLevel;
 	private Game game;
+	private GameView gameView;
+
 
 	public void act() {
 		if(Gdx.input.getInputProcessor() == game) {
+			gameView.destroyEnemies(game.getDefeatedEnemies());
 			game.act();
 		}
 	}
+
+	private void addActorsToView(LevelElements levelElements) {
+		for(Shooter shooter : levelElements.getShooters()) {
+			gameView.addShooterView(shooter);
+		}
+		for(Projectile projectile : levelElements.getProjectiles()) {
+			gameView.addProjectileView(projectile);
+		}
+		for(Block block : levelElements.getBlocks()) {
+			gameView.addBlockView(block);
+		}
+		for(Enemy enemy : levelElements.getEnemies()) {
+			gameView.addEnemyView(enemy);
+		}
+	}
+
 
 	public void startGame(Game g) {
 		game = g;
@@ -28,10 +45,13 @@ public class LevelsController {
 				currentLevel++;
 				if (currentLevel < levels.getSize()){
 					game.clear();
+					gameView.clear();
 					controller.prepareGame();
 
 					game.addListener(controller.game_esc);
-					levels.getLevel(currentLevel).accept(game);
+					LevelElements levelElements;
+					levelElements = levels.getLevel(currentLevel).apply(game);
+					addActorsToView(levelElements);
 				}
 			}
 
@@ -41,12 +61,15 @@ public class LevelsController {
 		if (currentLevel >= levels.getSize()){
 			currentLevel = 0;
 		}
-		levels.getLevel(currentLevel).accept(game);
+		LevelElements levelElements;
+		levelElements = levels.getLevel(currentLevel).apply(game);
+		addActorsToView(levelElements);
 	}
 
-	public LevelsController(Levels levels, Controller controller) {
+	public GameController(Levels levels, Controller controller, GameView gameView) {
 		this.levels = levels;
 		this.currentLevel = 0;
 		this.controller = controller;
+		this.gameView = gameView;
 	}
 }
