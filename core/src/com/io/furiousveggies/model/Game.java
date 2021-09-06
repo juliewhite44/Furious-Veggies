@@ -1,14 +1,11 @@
 package com.io.furiousveggies.model;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends Stage {
     private GameElementsFactory gameElementsFactory;
@@ -27,15 +24,14 @@ public class Game extends Stage {
 
     public static final float width = 20.0f, height = 10.0f;
 
-    public Game(Viewport viewport, Batch batch, GameElementsFactory gameElementsFactory){
-        super(viewport, batch);
+    public Game(GameElementsFactory gameElementsFactory, float scale){
         this.gameElementsFactory = gameElementsFactory;
         world = new World(new Vector2(0,-10f), true);
         projectiles = new Array<>();
         deleteRope = false;
         enemies = new ObjectMap<>();
         defeatedEnemies = new Array<>();
-        scale = Gdx.graphics.getWidth()/width;
+        this.scale = scale;
         gameResultListener = new GameResultListener() {
             @Override
             public void onGameWin() { }

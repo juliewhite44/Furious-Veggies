@@ -21,7 +21,6 @@ public class View {
 	private OrthographicCamera orthographicCamera;
 	private SpriteBatch spriteBatch;
 	private Stage current;
-	private Stage extraCurrent;
 	private SkinWrapper skinWrapper;
 	private ScreenViewport screenViewport;
 	private float width, height;
@@ -40,7 +39,6 @@ public class View {
 	public void setOrthographicCamera(OrthographicCamera orthographicCamera) { this.orthographicCamera = orthographicCamera; }
 	public void setSpriteBatch(SpriteBatch spriteBatch) { this.spriteBatch = spriteBatch; }
 	public void setCurrent(Stage current) { this.current = current; }
-	public void setExtraCurrent(Stage extraCurrent) { this.extraCurrent = extraCurrent; }
 	public void setSkinWrapper(SkinWrapper skinWrapper) { this.skinWrapper = skinWrapper; }
 	public void setScreenViewport(ScreenViewport screenViewport) { this.screenViewport = screenViewport; }
 	public void setWidth(float width) { this.width = width; }
@@ -49,7 +47,6 @@ public class View {
 	public OrthographicCamera getOrthographicCamera() { return orthographicCamera; }
 	public SpriteBatch getSpriteBatch() { return spriteBatch; }
 	public Stage getCurrent() { return current; }
-	public Stage getExtraCurrent() { return extraCurrent; }
 	public SkinWrapper getSkinWrapper() { return skinWrapper; }
 	public ScreenViewport getScreenViewport() { return screenViewport; }
 	public float getWidth() { return width; }
@@ -59,9 +56,7 @@ public class View {
 		Color color = skinWrapper.backgroundColor();
 		Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if(current.getClass() != Game.class)
-			current.draw();
-		if(extraCurrent != null) extraCurrent.draw();
+		current.draw();
 	}
 
 	public Table createMenuTable() {

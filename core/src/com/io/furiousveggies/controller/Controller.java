@@ -7,7 +7,7 @@ import com.io.furiousveggies.StagesFactory;
 import com.io.furiousveggies.StagesFactoryImpl;
 import com.io.furiousveggies.model.GameElementsFactory;
 import com.io.furiousveggies.model.GameElementsFactoryImpl;
-import com.io.furiousveggies.settings.Settings;
+import com.io.furiousveggies.view.settings.Settings;
 import com.io.furiousveggies.view.GameView;
 import com.io.furiousveggies.view.View;
 import com.io.furiousveggies.model.Game;
@@ -43,7 +43,7 @@ public class Controller extends ApplicationAdapter {
 		scale = Gdx.graphics.getWidth()/Game.width;
 
 		menu = stagesFactory.createMenu(view.getScreenViewport(), view.getSpriteBatch());
-		game = stagesFactory.createGame(view.getScreenViewport(), view.getSpriteBatch(), game_esc, view);
+		game = stagesFactory.createGame(game_esc, scale);
 		gameView = new GameView(view.getScreenViewport(), view.getSpriteBatch(), view);
 		settings = stagesFactory.createSettings(view.getScreenViewport(), view.getSpriteBatch(),  view.getSkinWrapper(), view.getHeight(), view.getWidth());
 
@@ -66,7 +66,6 @@ public class Controller extends ApplicationAdapter {
 		menu.addActor(buttonsTable.getParent().getParent());
 		Gdx.input.setInputProcessor(menu);
 		view.setCurrent(menu);
-		view.setExtraCurrent(null);
 	}
 	private void setupGame() {
 		gameView.clear();
@@ -74,8 +73,7 @@ public class Controller extends ApplicationAdapter {
 		prepareGame();
 		game.addListener(game_esc);
 		gameController.startGame(game);
-		view.setCurrent(game);
-		view.setExtraCurrent(gameView);
+		view.setCurrent(gameView);
 	}
 	private void setupSettings() {
 		settings.clear();
@@ -86,7 +84,6 @@ public class Controller extends ApplicationAdapter {
 			setupSettings();
 		});
 		view.setCurrent(settings);
-		view.setExtraCurrent(null);
 	}
 	public void prepareGame() {
 		Table root = new Table();

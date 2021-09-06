@@ -18,9 +18,9 @@ public class Rope extends Actor {
 
     @Override
     public void act(float delta){
-        //todo FIX THIS START
+        //todo FIX THIS
         projectile.setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), Align.center);
-        //todo FIX THIS END
+        //todo FIX THIS
     }
 
     @Override

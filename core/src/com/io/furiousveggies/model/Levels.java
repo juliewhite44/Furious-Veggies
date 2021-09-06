@@ -3,17 +3,11 @@ package com.io.furiousveggies.model;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.LinkedList;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Levels {
 	private Array<Function<Game, LevelElements>> levels;
 	private float scale;
-
-	private void addBox(Game game, float x, float y, float size, float scale) {
-		Block block = game.addBox(x, y, size, scale);
-
-	}
 
 	public LevelElements level1(Game game) {
 		LevelElements levelElements = new LevelElements();

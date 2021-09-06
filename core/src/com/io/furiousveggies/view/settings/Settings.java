@@ -1,4 +1,4 @@
-package com.io.furiousveggies.settings;
+package com.io.furiousveggies.view.settings;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
