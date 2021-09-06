@@ -22,11 +22,11 @@ public class Levels {
 		game.addGround();
 		gameElements.add(game.addBox(14f, 5f, 3f, scale));
 		gameElements.add(game.addBox(14f, 2f, 1.5f, scale));
-		game.addShooter(5f, 2f, scale);
-		game.addProjectile(1f, scale);
-		game.addProjectile(1f, scale);
-		game.addProjectile(1f, scale);
-		game.addProjectile(1f, scale);
+		gameElements.add(game.addShooter(5f, 2f, scale));
+		gameElements.add(game.addProjectile(1f, scale));
+		gameElements.add(game.addProjectile(1f, scale));
+		gameElements.add(game.addProjectile(1f, scale));
+		gameElements.add(game.addProjectile(1f, scale));
 		gameElements.add(game.addBox(10f, 2f, 1.5f, scale));
 		gameElements.add(game.addEnemy(10f, 5f, 2f, scale));
 		gameElements.add(game.addEnemy(13f, 7f, 1f, scale));
@@ -41,11 +41,11 @@ public class Levels {
 		LinkedList<GameElement> gameElements = new LinkedList<>();
 
 		game.addGround();
-		game.addShooter(3f, 1.5f, scale);
-		game.addProjectile(0.75f, scale);
-		game.addProjectile(0.75f, scale);
-		game.addProjectile(0.75f, scale);
-		game.addProjectile(0.75f, scale);
+		gameElements.add(game.addShooter(3f, 1.5f, scale));
+		gameElements.add(game.addProjectile(0.75f, scale));
+		gameElements.add(game.addProjectile(0.75f, scale));
+		gameElements.add(game.addProjectile(0.75f, scale));
+		gameElements.add(game.addProjectile(0.75f, scale));
 		gameElements.add(game.addBox(7f, 1f, 1f, scale));
 		gameElements.add(game.addBox(7f, 2f, 1f, scale));
 		gameElements.add(game.addBox(7f, 3f, 1f, scale));

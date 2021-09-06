@@ -14,7 +14,7 @@ import com.io.furiousveggies.view.skins.SkinWrapper;
 public class StagesFactoryImpl implements StagesFactory {
     @Override
     public Game createGame(ScreenViewport screenViewport, SpriteBatch spriteBatch, InputListener inputListener, View view) {
-        Game game = new Game(screenViewport, spriteBatch, new GameElementsFactoryImpl(), view);
+        Game game = new Game(screenViewport, spriteBatch, new GameElementsFactoryImpl());
         game.setGameElementsFactory(new GameElementsFactoryImpl());
         game.clear();
         game.addListener(inputListener);

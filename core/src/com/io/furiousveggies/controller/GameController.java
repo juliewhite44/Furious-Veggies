@@ -16,6 +16,13 @@ public class GameController {
 	public void act() {
 		if(Gdx.input.getInputProcessor() == game) {
 			gameView.destroyEnemies(game.getDefeatedEnemies());
+			gameView.addRopeView(game.getRope());
+			game.setRope(null);
+			if(game.isDeleteRope()) {
+				gameView.deleteRope();
+				game.setDeleteRope(false);
+			}
+			gameView.act();
 			game.act();
 		}
 	}

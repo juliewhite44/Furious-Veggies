@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.io.furiousveggies.view.*;
 
 public class Game extends Stage {
     private GameElementsFactory gameElementsFactory;
@@ -23,18 +22,17 @@ public class Game extends Stage {
     private int currentProjectile;
     private float shooterX, shooterSize;
     private Shooter shooter;
-    private View view;
-
-    int deleteThis = 0;
+    private Rope rope;
+    private boolean deleteRope;
 
     public static final float width = 20.0f, height = 10.0f;
 
-    public Game(Viewport viewport, Batch batch, GameElementsFactory gameElementsFactory, View view){
+    public Game(Viewport viewport, Batch batch, GameElementsFactory gameElementsFactory){
         super(viewport, batch);
-        this.view = view;
         this.gameElementsFactory = gameElementsFactory;
         world = new World(new Vector2(0,-10f), true);
         projectiles = new Array<>();
+        deleteRope = false;
         enemies = new ObjectMap<>();
         defeatedEnemies = new Array<>();
         scale = Gdx.graphics.getWidth()/width;
@@ -48,10 +46,6 @@ public class Game extends Stage {
         clear();
     }
 
-    public View getView() {
-        return view;
-    }
-
     public GameElementsFactory getGameElementsFactory() { return gameElementsFactory; }
     public void setGameElementsFactory(GameElementsFactory gameElementsFactory){
         this.gameElementsFactory = gameElementsFactory;
@@ -61,6 +55,21 @@ public class Game extends Stage {
         this.gameResultListener = gameResultListener;
     }
 
+    public Rope getRope() {
+        return rope;
+    }
+
+    public void setRope(Rope rope) {
+        this.rope = rope;
+    }
+
+    public boolean isDeleteRope() {
+        return deleteRope;
+    }
+
+    public void setDeleteRope(boolean deleteRope) {
+        this.deleteRope = deleteRope;
+    }
 
     public void addGround() {
         ground = gameElementsFactory.createGround(world, width * 2);
@@ -73,7 +82,6 @@ public class Game extends Stage {
         return block;
     }
 
-
     public Enemy addEnemy(float x, float y, float size, float scale) {
         Enemy enemy = gameElementsFactory.createEnemy(world, x, y, size, scale);
         addActor(enemy);
@@ -81,16 +89,15 @@ public class Game extends Stage {
         return enemy;
     }
 
-    public void addShooter(float x, float size, float scale) {
+    public Shooter addShooter(float x, float size, float scale) {
         shooterX = x;
         shooterSize = size;
         shooter = gameElementsFactory.createShooter(world, x, size, scale);
-        ShooterView shooterView = new ShooterView(shooter, view.getSkinWrapper().shooterDrawable());
         addActor(shooter);
-        addActor(shooterView);
+        return shooter;
     }
 
-    public void addProjectile(float size, float scale){
+    public Projectile addProjectile(float size, float scale){
         Projectile projectile;
         if (projectiles.size == 0){
             projectile = gameElementsFactory.createProjectile(world, shooterX - size / 2, shooterSize * 1.5f, size, scale);
@@ -98,10 +105,9 @@ public class Game extends Stage {
         else {
             projectile = gameElementsFactory.createProjectile(world, shooterX - 1.5f * size * projectiles.size - size / 2, 0, size, scale);
         }
-        ProjectileView projectileView = new ProjectileView(projectile, view.getSkinWrapper().projectileDrawable());
         addActor(projectile);
-        addActor(projectileView);
         projectiles.add(projectile);
+        return projectile;
     }
 
     public Array<Body> getDefeatedEnemies() {
@@ -118,6 +124,8 @@ public class Game extends Stage {
             currentProjectile = projectiles.size;
             if (shooter.loaded()){
                 shooter.shoot();
+                deleteRope = true;
+
             }
             gameResultListener.onGameWin();
         }
@@ -138,7 +146,6 @@ public class Game extends Stage {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
-                deleteThis++;
                 Body bodyA = contact.getFixtureA().getBody();
                 Body bodyB = contact.getFixtureB().getBody();
                 if (bodyB == ground){
@@ -173,7 +180,8 @@ public class Game extends Stage {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button){
         if (currentProjectile < projectiles.size){
-            shooter.aim(projectiles.get(currentProjectile));
+            rope = shooter.aim(projectiles.get(currentProjectile));
+            addActor(rope);
         }
         return super.touchDown(screenX, screenY, pointer, button);
     }
@@ -183,6 +191,7 @@ public class Game extends Stage {
         if (shooter.loaded() && currentProjectile < projectiles.size){
             Projectile projectile;
             shooter.shoot();
+            deleteRope = true;
             currentProjectile++;
             if (currentProjectile < projectiles.size) {
                 projectile = projectiles.get(currentProjectile);

@@ -69,6 +69,7 @@ public class Controller extends ApplicationAdapter {
 		view.setExtraCurrent(null);
 	}
 	private void setupGame() {
+		gameView.clear();
 		game.clear();
 		prepareGame();
 		game.addListener(game_esc);
@@ -90,7 +91,7 @@ public class Controller extends ApplicationAdapter {
 	public void prepareGame() {
 		Table root = new Table();
 		root.setFillParent(true);
-		game.addActor(root);
+		gameView.addActor(root);
 		Table mainTable = new Table(view.getSkinWrapper().getSkin());
 		mainTable.setBackground(view.getSkinWrapper().gameBackgroundName());
 		root.add(mainTable).grow().pad(0);

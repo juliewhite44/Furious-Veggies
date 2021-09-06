@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.io.furiousveggies.model.Game;
 import com.io.furiousveggies.view.skins.SkinWrapper;
 import com.io.furiousveggies.view.skins.Skins;
 
@@ -58,7 +59,8 @@ public class View {
 		Color color = skinWrapper.backgroundColor();
 		Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		current.draw();
+		if(current.getClass() != Game.class)
+			current.draw();
 		if(extraCurrent != null) extraCurrent.draw();
 	}
 
