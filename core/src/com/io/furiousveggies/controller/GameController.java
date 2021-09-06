@@ -28,11 +28,11 @@ public class GameController {
 	}
 
 	private void addActorsToView(LevelElements levelElements) {
-		for(Shooter shooter : levelElements.getShooters()) {
-			gameView.addShooterView(shooter);
-		}
 		for(Projectile projectile : levelElements.getProjectiles()) {
 			gameView.addProjectileView(projectile);
+		}
+		for(Shooter shooter : levelElements.getShooters()) {
+			gameView.addShooterView(shooter);
 		}
 		for(Block block : levelElements.getBlocks()) {
 			gameView.addBlockView(block);

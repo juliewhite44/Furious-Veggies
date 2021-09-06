@@ -33,6 +33,7 @@ public class GameView extends Stage {
         addActor(shooterView);
     }
 
+
     public void addProjectileView(Projectile projectile) {
         ProjectileView projectileView = new ProjectileView(projectile, view.getSkinWrapper().projectileDrawable());
         addActor(projectileView);
