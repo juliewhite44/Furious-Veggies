@@ -8,11 +8,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.io.furiousveggies.game.Block;
-import com.io.furiousveggies.game.Game;
+import com.io.furiousveggies.model.Game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.io.furiousveggies.model.Block;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -65,7 +65,7 @@ class TestBlock {
 		
 		box.dispose();
 		
-		block = new Block(body, bodyHalfSize * 2, screenWidth, null);
+		block = new Block(body, bodyHalfSize * 2, (float) (1024/20.0));
 		
 		for(int i = 0; i < 60 * 100; i++) {
 			world.step(1.0f/60.0f, 8, 6);

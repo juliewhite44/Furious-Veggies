@@ -1,39 +1,38 @@
-package com.io.furiousveggies.game;
+package com.io.furiousveggies.model;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends Stage {
-    private GameElementsFactory elementsFactory;
-    private final Array<Projectile> projectiles;
-    private final ObjectMap<Body, Enemy> enemies;
-    private final Array<Body> defeatedEnemies;
-    private final float scale;
+    private GameElementsFactory gameElementsFactory;
+    private Array<Projectile> projectiles;
+    private ObjectMap<Body, Enemy> enemies;
+    private Array<Body> defeatedEnemies;
+    private float scale;
     private World world;
     private Body ground;
-    private GameResultListener resultListener;
+    private GameResultListener gameResultListener;
     private int currentProjectile;
     private float shooterX, shooterSize;
     private Shooter shooter;
+    private Rope rope;
+    private boolean deleteRope;
 
     public static final float width = 20.0f, height = 10.0f;
 
-    public Game(Viewport viewport, Batch batch, GameElementsFactory elementsFactory){
-        super(viewport, batch);
-        this.elementsFactory = elementsFactory;
+    public Game(GameElementsFactory gameElementsFactory, float scale){
+        this.gameElementsFactory = gameElementsFactory;
         world = new World(new Vector2(0,-10f), true);
-        projectiles = new Array<Projectile>();
-        enemies = new ObjectMap<Body, Enemy>();
-        defeatedEnemies = new Array<Body>();
-        scale = Gdx.graphics.getWidth()/width;
-        resultListener = new GameResultListener() {
+        projectiles = new Array<>();
+        deleteRope = false;
+        enemies = new ObjectMap<>();
+        defeatedEnemies = new Array<>();
+        this.scale = scale;
+        gameResultListener = new GameResultListener() {
             @Override
             public void onGameWin() { }
 
@@ -43,46 +42,72 @@ public class Game extends Stage {
         clear();
     }
 
-    public void setElementsFactory(GameElementsFactory elementsFactory){
-        this.elementsFactory = elementsFactory;
+    public GameElementsFactory getGameElementsFactory() { return gameElementsFactory; }
+    public void setGameElementsFactory(GameElementsFactory gameElementsFactory){
+        this.gameElementsFactory = gameElementsFactory;
     }
 
-    public void setResultListener(GameResultListener resultListener){
-        this.resultListener = resultListener;
+    public void setGameResultListener(GameResultListener gameResultListener){
+        this.gameResultListener = gameResultListener;
+    }
+
+    public Rope getRope() {
+        return rope;
+    }
+
+    public void setRope(Rope rope) {
+        this.rope = rope;
+    }
+
+    public boolean isDeleteRope() {
+        return deleteRope;
+    }
+
+    public void setDeleteRope(boolean deleteRope) {
+        this.deleteRope = deleteRope;
     }
 
     public void addGround() {
-        ground = elementsFactory.createGround(world, width * 2);
+        ground = gameElementsFactory.createGround(world, width * 2);
     }
 
-    public void addBox(float x, float y, float size) {
-        addActor(elementsFactory.createBox(world, x, y, size));
+
+    public Block addBox(float x, float y, float size, float scale) {
+        Block block = gameElementsFactory.createBlock(world, x, y, size, scale);
+        addActor(block);
+        return block;
     }
 
-    public void addEnemy(float x, float y, float size) {
-        Enemy enemy = elementsFactory.createEnemy(world, x, y, size);
+    public Enemy addEnemy(float x, float y, float size, float scale) {
+        Enemy enemy = gameElementsFactory.createEnemy(world, x, y, size, scale);
         addActor(enemy);
-        enemies.put(enemy.body, enemy);
+        enemies.put(enemy.getBody(), enemy);
+        return enemy;
     }
 
-    public void addShooter(float x, float size) {
+    public Shooter addShooter(float x, float size, float scale) {
         shooterX = x;
         shooterSize = size;
-        shooter = elementsFactory.createShooter(world, x, size);
+        shooter = gameElementsFactory.createShooter(world, x, size, scale);
         addActor(shooter);
+        return shooter;
     }
 
-    public void addProjectile(float size){
+    public Projectile addProjectile(float size, float scale){
         Projectile projectile;
         if (projectiles.size == 0){
-            projectile = elementsFactory.createProjectile(world, shooterX - size / 2, shooterSize * 1.5f, size);
+            projectile = gameElementsFactory.createProjectile(world, shooterX - size / 2, shooterSize * 1.5f, size, scale);
         }
         else {
-            projectile = elementsFactory.createProjectile(world, shooterX - 1.5f * size * projectiles.size - size / 2, 0, size);
+            projectile = gameElementsFactory.createProjectile(world, shooterX - 1.5f * size * projectiles.size - size / 2, 0, size, scale);
         }
-
         addActor(projectile);
         projectiles.add(projectile);
+        return projectile;
+    }
+
+    public Array<Body> getDefeatedEnemies() {
+        return defeatedEnemies;
     }
 
     @Override
@@ -95,11 +120,13 @@ public class Game extends Stage {
             currentProjectile = projectiles.size;
             if (shooter.loaded()){
                 shooter.shoot();
+                deleteRope = true;
+
             }
-            resultListener.onGameWin();
+            gameResultListener.onGameWin();
         }
         else if (currentProjectile == projectiles.size){
-            resultListener.onGameOver();
+            gameResultListener.onGameOver();
         }
         world.step(1.0f/60.0f, 8, 6);
     }
@@ -107,7 +134,6 @@ public class Game extends Stage {
     @Override
     public void clear(){
         super.clear();
-        elementsFactory.prepareGame(this);
         projectiles.clear();
         enemies.clear();
         defeatedEnemies.clear();
@@ -123,7 +149,6 @@ public class Game extends Stage {
                     bodyB = contact.getFixtureA().getBody();
                 }
                 if (bodyA == ground && enemies.containsKey(bodyB)){
-                    enemies.get(bodyB).defeated();
                     enemies.remove(bodyB);
                     defeatedEnemies.add(bodyB);
                 }
@@ -151,7 +176,8 @@ public class Game extends Stage {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button){
         if (currentProjectile < projectiles.size){
-            shooter.aim(projectiles.get(currentProjectile));
+            rope = shooter.aim(projectiles.get(currentProjectile));
+            addActor(rope);
         }
         return super.touchDown(screenX, screenY, pointer, button);
     }
@@ -161,6 +187,7 @@ public class Game extends Stage {
         if (shooter.loaded() && currentProjectile < projectiles.size){
             Projectile projectile;
             shooter.shoot();
+            deleteRope = true;
             currentProjectile++;
             if (currentProjectile < projectiles.size) {
                 projectile = projectiles.get(currentProjectile);
