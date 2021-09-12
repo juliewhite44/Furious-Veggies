@@ -13,7 +13,7 @@ public class Levels {
 		LevelElements levelElements = new LevelElements();
 		LinkedList<GameElement> gameElements = new LinkedList<>();
 
-		game.addGround();
+		game.addWalls();
 		gameElements.add(game.addBox(14f, 5f, 3f, scale));
 		gameElements.add(game.addBox(14f, 2f, 1.5f, scale));
 		gameElements.add(game.addShooter(5f, 2f, scale));
@@ -34,7 +34,7 @@ public class Levels {
 		LevelElements levelElements = new LevelElements();
 		LinkedList<GameElement> gameElements = new LinkedList<>();
 
-		game.addGround();
+		game.addWalls();
 		gameElements.add(game.addShooter(3f, 1.5f, scale));
 		gameElements.add(game.addProjectile(0.75f, scale));
 		gameElements.add(game.addProjectile(0.75f, scale));

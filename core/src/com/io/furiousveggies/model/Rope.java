@@ -7,6 +7,9 @@ import com.badlogic.gdx.utils.Align;
 public class Rope extends Actor {
     private final Projectile projectile;
     private final float startX, startY, endX, endY;
+    private int mousePositionX;
+    private int mousePositionY;
+    private static final int height = 512;
 
     Rope(Projectile projectile, float x, float y){
         this.projectile = projectile;
@@ -16,11 +19,17 @@ public class Rope extends Actor {
         endY = y;
     }
 
+    public void setMousePositionX(int mousePositionX) {
+        this.mousePositionX = mousePositionX;
+    }
+
+    public void setMousePositionY(int mousePositionY) {
+        this.mousePositionY = mousePositionY;
+    }
+
     @Override
     public void act(float delta){
-        //todo FIX THIS
-        projectile.setPosition(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), Align.center);
-        //todo FIX THIS
+        projectile.setPosition(mousePositionX, height - mousePositionY, Align.center);
     }
 
     @Override

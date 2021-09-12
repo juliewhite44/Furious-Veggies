@@ -19,8 +19,11 @@ public class Game extends Stage {
     private int currentProjectile;
     private float shooterX, shooterSize;
     private Shooter shooter;
-    private Rope rope;
+    private Rope rope; //uzywane do tworzenia rope view
+    private Rope actualRope;
     private boolean deleteRope;
+    private int mousePositionX;
+    private int mousePositionY;
 
     public static final float width = 20.0f, height = 10.0f;
 
@@ -40,6 +43,14 @@ public class Game extends Stage {
             public void onGameOver() { }
         };
         clear();
+    }
+
+    public void setMousePositionX(int mousePositionX) {
+        this.mousePositionX = mousePositionX;
+    }
+
+    public void setMousePositionY(int mousePositionY) {
+        this.mousePositionY = mousePositionY;
     }
 
     public GameElementsFactory getGameElementsFactory() { return gameElementsFactory; }
@@ -67,8 +78,11 @@ public class Game extends Stage {
         this.deleteRope = deleteRope;
     }
 
-    public void addGround() {
+    public void addWalls() {
         ground = gameElementsFactory.createGround(world, width * 2);
+        gameElementsFactory.createCeiling(world, width * 2);
+        gameElementsFactory.createRightWall(world, height * 2);
+        gameElementsFactory.createLeftWall(world, height * 2);
     }
 
 
@@ -178,6 +192,7 @@ public class Game extends Stage {
         if (currentProjectile < projectiles.size){
             rope = shooter.aim(projectiles.get(currentProjectile));
             addActor(rope);
+            actualRope = rope;
         }
         return super.touchDown(screenX, screenY, pointer, button);
     }
@@ -188,6 +203,7 @@ public class Game extends Stage {
             Projectile projectile;
             shooter.shoot();
             deleteRope = true;
+            actualRope = null;
             currentProjectile++;
             if (currentProjectile < projectiles.size) {
                 projectile = projectiles.get(currentProjectile);
@@ -204,5 +220,14 @@ public class Game extends Stage {
             }
         }
         return super.touchDown(screenX, screenY, pointer, button);
+    }
+
+    @Override
+    public void act() {
+        if(actualRope != null) {
+            actualRope.setMousePositionY(mousePositionY);
+            actualRope.setMousePositionX(mousePositionX);
+        }
+        super.act();
     }
 }
