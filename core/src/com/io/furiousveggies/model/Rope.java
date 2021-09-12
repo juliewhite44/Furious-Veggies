@@ -29,7 +29,10 @@ public class Rope extends Actor {
 
     @Override
     public void act(float delta){
-        projectile.setPosition(mousePositionX, height - mousePositionY, Align.center);
+        //todo ewentualnie mozna zrobic tak zeby nie dalo sie linki ciagnac za sciany ale ja nie umiem
+        if(mousePositionX < endX) {
+            projectile.setPosition(mousePositionX, height - mousePositionY, Align.center);
+        }
     }
 
     @Override
