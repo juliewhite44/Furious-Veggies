@@ -66,7 +66,7 @@ public class Game extends Stage {
         return rope;
     }
 
-    public void setRope(Rope rope) {
+    public void setRope(PossibleRope rope) {
         this.rope = rope;
     }
 

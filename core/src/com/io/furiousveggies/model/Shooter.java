@@ -35,7 +35,7 @@ public class Shooter extends GameElement {
 	}
 
 	public boolean loaded(){
-		return rope.getClass() == Rope.class;
+		return rope instanceof Rope;
 	}
 
 }
