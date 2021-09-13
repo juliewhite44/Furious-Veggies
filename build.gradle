@@ -32,7 +32,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = 'FuriousVeggies'
+        appName = 'Stonks'
         gdxVersion = '1.9.14'
         roboVMVersion = '2.3.12'
         box2DLightsVersion = '1.5'
