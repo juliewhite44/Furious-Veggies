@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Align;
 public class Shooter extends GameElement {
 	public static final float WIDTH_TO_HEIGHT = 0.25f;
 
-	private Rope rope;
+	private PossibleRope rope;
 
 	public Shooter(Body body, float size, float scale){
 		super(body, size, scale);
@@ -23,20 +23,19 @@ public class Shooter extends GameElement {
 		setPosition(pos.x * scale, pos.y * scale * 2, Align.center);
 	}
 
-	public Rope aim(Projectile projectile){
+	public PossibleRope aim(Projectile projectile){
 		rope = new Rope(projectile, getX() + getWidth() / 2, getY() + getHeight() - projectile.getHeight() / 2);
 		return rope;
 	}
 
-
 	public void shoot(){
-		rope.remove();
+		rope.shoot();
 		//todo zamienić null jakąś pustą implementacją
-		rope = null;
+		rope = new PossibleRope();
 	}
 
 	public boolean loaded(){
-		return rope != null;
+		return rope.getClass() == Rope.class;
 	}
 
 }

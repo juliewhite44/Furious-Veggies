@@ -50,7 +50,7 @@ public class GameView extends Stage {
         enemies.put(enemyView.getEnemy().getBody(), enemyView);
     }
 
-    public void addRopeView(Rope rope) {
+    public void addRopeView(PossibleRope rope) {
         if(rope == null || ropeView != null) return;
         ropeView = new RopeView(rope, view.getSkinWrapper().shooterRopeColor());
         addActor(ropeView);

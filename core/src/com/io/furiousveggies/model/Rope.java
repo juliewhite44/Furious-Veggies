@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 
-public class Rope extends Actor {
+public class Rope extends PossibleRope {
     private final Projectile projectile;
     private final float startX, startY, endX, endY;
     private int mousePositionX;
@@ -19,10 +19,12 @@ public class Rope extends Actor {
         endY = y;
     }
 
+    @Override
     public void setMousePositionX(int mousePositionX) {
         this.mousePositionX = mousePositionX;
     }
 
+    @Override
     public void setMousePositionY(int mousePositionY) {
         this.mousePositionY = mousePositionY;
     }
@@ -37,18 +39,27 @@ public class Rope extends Actor {
 
     @Override
     public boolean remove(){
-        projectile.shoot((startX - projectile.getX())/5, (startY - projectile.getY())/5);
         return super.remove();
     }
 
+    @Override
     public Projectile getProjectile() {
         return projectile;
     }
 
+    @Override
     public float getEndX() {
         return endX;
     }
+    
+    @Override
     public float getEndY() {
         return endY;
+    }
+    
+    @Override
+    public void shoot() {
+    	projectile.shoot((startX - projectile.getX())/5, (startY - projectile.getY())/5);
+    	remove();
     }
 }

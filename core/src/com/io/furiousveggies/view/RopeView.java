@@ -5,15 +5,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.io.furiousveggies.model.PossibleRope;
 import com.io.furiousveggies.model.Projectile;
 import com.io.furiousveggies.model.Rope;
 
 public class RopeView extends Actor {
-    private Rope rope;
+    private PossibleRope rope;
     private ShapeRenderer shapeRenderer;
     private Color color;
 
-    public RopeView(Rope rope, Color color) {
+    public RopeView(PossibleRope rope, Color color) {
         this.rope = rope;
         this.shapeRenderer = new ShapeRenderer();
         this.color = color;

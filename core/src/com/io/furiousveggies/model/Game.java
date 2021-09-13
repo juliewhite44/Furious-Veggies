@@ -19,8 +19,8 @@ public class Game extends Stage {
     private int currentProjectile;
     private float shooterX, shooterSize;
     private Shooter shooter;
-    private Rope rope; //uzywane do tworzenia rope view
-    private Rope actualRope;
+    private PossibleRope rope; //uzywane do tworzenia rope view
+    private PossibleRope actualRope;
     private boolean deleteRope;
     private int mousePositionX;
     private int mousePositionY;
@@ -62,7 +62,7 @@ public class Game extends Stage {
         this.gameResultListener = gameResultListener;
     }
 
-    public Rope getRope() {
+    public PossibleRope getRope() {
         return rope;
     }
 
