@@ -8,7 +8,7 @@ public class GameElementsFactoryImpl implements GameElementsFactory {
     public Body createGround(World world, float width){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(0, -0.5f);
+        bodyDef.position.set(0, -0.7f);
 
         Body ground = world.createBody(bodyDef);
 
@@ -22,6 +22,66 @@ public class GameElementsFactoryImpl implements GameElementsFactory {
         box.dispose();
 
         return ground;
+    }
+
+    @Override
+    public Body createCeiling(World world, float width) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(0, 10.7f);
+
+        Body ceiling = world.createBody(bodyDef);
+
+        PolygonShape box = new PolygonShape();
+        box.setAsBox(width, 0.6f);
+
+        Fixture fixture = ceiling.createFixture(box, 0.0f);
+        fixture.setRestitution(0);
+        fixture.setFriction(1);
+
+        box.dispose();
+
+        return ceiling;
+    }
+
+    @Override
+    public Body createRightWall(World world, float height) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(20.65f, 0);
+
+        Body rightWall = world.createBody(bodyDef);
+
+        PolygonShape box = new PolygonShape();
+        box.setAsBox(0.6f, height);
+
+        Fixture fixture = rightWall.createFixture(box, 0.0f);
+        fixture.setRestitution(0);
+        fixture.setFriction(1);
+
+        box.dispose();
+
+        return rightWall;
+    }
+
+    @Override
+    public Body createLeftWall(World world, float height) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(-0.6f, 0);
+
+        Body leftWall = world.createBody(bodyDef);
+
+        PolygonShape box = new PolygonShape();
+        box.setAsBox(0.6f, height);
+
+        Fixture fixture = leftWall.createFixture(box, 0.0f);
+        fixture.setRestitution(0);
+        fixture.setFriction(1);
+
+        box.dispose();
+
+        return leftWall;
     }
 
     @Override

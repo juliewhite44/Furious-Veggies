@@ -1,6 +1,7 @@
 package com.io.furiousveggies.controller;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.io.furiousveggies.StagesFactory;
@@ -27,6 +28,7 @@ public class Controller extends ApplicationAdapter {
 	private GameView gameView;
 	private Stage menu;
 	private Settings settings;
+	private Sound sound;
 
 	private Levels levels;
 	private View view;
@@ -49,6 +51,9 @@ public class Controller extends ApplicationAdapter {
 
 		levels = new Levels(scale);
 		gameController = new GameController(levels, this, gameView);
+
+		sound = Gdx.audio.newSound(Gdx.files.internal("sound/mainTheme.wav"));
+		sound.loop();
 
 		setupMenu();
 	}

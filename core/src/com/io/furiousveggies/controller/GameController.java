@@ -23,6 +23,8 @@ public class GameController {
 				game.setDeleteRope(false);
 			}
 			gameView.act();
+			game.setMousePositionX(Gdx.input.getX());
+			game.setMousePositionY(Gdx.input.getY());
 			game.act();
 		}
 	}
