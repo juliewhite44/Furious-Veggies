@@ -24,6 +24,7 @@ public class Game extends Stage {
     private boolean deleteRope;
     private int mousePositionX;
     private int mousePositionY;
+    private int gameOverCounter = 0;
 
     public static final float width = 20.0f, height = 10.0f;
 
@@ -131,6 +132,7 @@ public class Game extends Stage {
             world.destroyBody(defeatedEnemies.pop());
         }
         if (enemies.size == 0){
+            gameOverCounter = 0;
             currentProjectile = projectiles.size;
             if (shooter.loaded()){
                 shooter.shoot();
@@ -140,7 +142,13 @@ public class Game extends Stage {
             gameResultListener.onGameWin();
         }
         else if (currentProjectile == projectiles.size){
-            gameResultListener.onGameOver();
+            gameOverCounter++;
+            if(gameOverCounter == 300) {
+                gameResultListener.onGameOver();
+            }
+        }
+        else {
+            gameOverCounter = 0;
         }
         world.step(1.0f/60.0f, 8, 6);
     }

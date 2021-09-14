@@ -20,7 +20,7 @@ public class StagesFactoryImpl implements StagesFactory {
     }
 
     @Override
-    public Stage createMenu(ScreenViewport screenViewport, SpriteBatch spriteBatch) {
+    public Stage createDefaultStage(ScreenViewport screenViewport, SpriteBatch spriteBatch) {
         return new Stage(screenViewport, spriteBatch);
     }
 
