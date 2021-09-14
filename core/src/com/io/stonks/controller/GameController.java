@@ -1,6 +1,7 @@
 package com.io.stonks.controller;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.io.stonks.model.*;
 import com.io.stonks.view.GameView;
 
@@ -11,7 +12,7 @@ public class GameController {
 	private int currentLevel;
 	private Game game;
 	private GameView gameView;
-
+	Sound potatoSound = Gdx.audio.newSound(Gdx.files.internal("sound/potato.wav"));
 
 	public void act() {
 		if(Gdx.input.getInputProcessor() == game) {
@@ -20,6 +21,7 @@ public class GameController {
 			game.setRope(null);
 			if(game.isDeleteRope()) {
 				gameView.deleteRope();
+				potatoSound.play();
 				game.setDeleteRope(false);
 			}
 			gameView.act();
