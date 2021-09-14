@@ -10,6 +10,6 @@ import com.io.stonks.view.skins.SkinWrapper;
 
 public interface StagesFactory {
     Game createGame(InputListener inputListener, float scale);
-    Stage createMenu(ScreenViewport screenViewport, SpriteBatch spriteBatch);
+    Stage createDefaultStage(ScreenViewport screenViewport, SpriteBatch spriteBatch);
     Settings createSettings(ScreenViewport screenViewport, SpriteBatch spriteBatch, SkinWrapper skinWrapper, float height, float width);
 }

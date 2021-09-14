@@ -17,6 +17,8 @@ import com.io.stonks.view.skins.Skins;
 public class View {
 	public static final String MENU_GAME_BUTTON_NAME = "Menu Game Button";
 	public static final String MENU_SETTINGS_BUTTON_NAME = "Menu Settings Button";
+	public static final String END_GAME_MENU_BUTTON_NAME = "End Game Menu Button";
+	public static final String END_GAME_RETRY_BUTTON_NAME = "End Game Retry Button";
 
 	private OrthographicCamera orthographicCamera;
 	private SpriteBatch spriteBatch;
@@ -82,6 +84,33 @@ public class View {
 		subtable.add(menuSettings).grow().padLeft(width/100).padTop(height/100).padBottom(width/100).padRight(height/100);
 
 		Label title = new Label("Stonks", skinWrapper.getSkin(), "title");
+		table.add(title).expand().center().padTop(height/100);
+
+		return subtable;
+	}
+	public Table createEndGameTable() {
+		Table root = new Table();
+		root.setFillParent(true);
+
+		Table table = new Table(skinWrapper.getSkin());
+		table.setBackground(skinWrapper.menuBackgroundName());
+		table.setBounds(0, 0, width, height);
+
+		root.add(table).grow().pad(0);
+
+		Table subtable = new Table();
+		table.add(subtable).grow().padRight(0);
+
+		TextButton menuGame = new TextButton("Menu", skinWrapper.getSkin());
+		menuGame.setName(END_GAME_MENU_BUTTON_NAME);
+		subtable.add(menuGame).grow().padLeft(width/100).padTop(height/100).padRight(width/100);
+		subtable.row();
+
+		TextButton menuSettings = new TextButton("Retry", skinWrapper.getSkin());
+		menuSettings.setName(END_GAME_RETRY_BUTTON_NAME);
+		subtable.add(menuSettings).grow().padLeft(width/100).padTop(height/100).padBottom(width/100).padRight(height/100);
+
+		Label title = new Label("Try again", skinWrapper.getSkin(), "title");
 		table.add(title).expand().center().padTop(height/100);
 
 		return subtable;

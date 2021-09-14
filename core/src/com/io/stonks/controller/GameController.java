@@ -45,9 +45,9 @@ public class GameController {
 	}
 
 
-	public void startGame(Game g) {
+	public void startGame(Game g, int fromLevel) {
 		game = g;
-		currentLevel = 0;
+		currentLevel = fromLevel;
 		game.setGameResultListener(new GameResultListener() {
 			@Override
 			public void onGameWin() {
@@ -65,7 +65,9 @@ public class GameController {
 			}
 
 			@Override
-			public void onGameOver() { }
+			public void onGameOver() {
+				controller.setupEndGame(currentLevel);
+			}
 		});
 		if (currentLevel >= levels.getSize()){
 			currentLevel = 0;

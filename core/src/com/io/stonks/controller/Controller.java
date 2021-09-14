@@ -27,6 +27,7 @@ public class Controller extends ApplicationAdapter {
 	private Game game;
 	private GameView gameView;
 	private Stage menu;
+	private Stage gameOver;
 	private Settings settings;
 	private Sound sound;
 
@@ -44,7 +45,8 @@ public class Controller extends ApplicationAdapter {
 		gameElementsFactory = new GameElementsFactoryImpl();
 		scale = Gdx.graphics.getWidth()/Game.width;
 
-		menu = stagesFactory.createMenu(view.getScreenViewport(), view.getSpriteBatch());
+		menu = stagesFactory.createDefaultStage(view.getScreenViewport(), view.getSpriteBatch());
+		gameOver = stagesFactory.createDefaultStage(view.getScreenViewport(), view.getSpriteBatch());
 		game = stagesFactory.createGame(game_esc, scale);
 		gameView = new GameView(view.getScreenViewport(), view.getSpriteBatch(), view);
 		settings = stagesFactory.createSettings(view.getScreenViewport(), view.getSpriteBatch(),  view.getSkinWrapper(), view.getHeight(), view.getWidth());
@@ -64,6 +66,20 @@ public class Controller extends ApplicationAdapter {
 		view.draw();
 	}
 
+	public void setupEndGame(int endLevel) {
+		Table buttonsTable = view.createEndGameTable();
+		buttonsTable.findActor(View.END_GAME_MENU_BUTTON_NAME).addListener(end_game_button_menu);
+		buttonsTable.findActor(View.END_GAME_RETRY_BUTTON_NAME).addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+				setupGame(endLevel);
+				Gdx.input.setInputProcessor(game);
+			}
+		});
+		menu.addActor(buttonsTable.getParent().getParent());
+		Gdx.input.setInputProcessor(menu);
+		view.setCurrent(menu);
+	}
 	private void setupMenu() {
 		Table buttonsTable = view.createMenuTable();
 		buttonsTable.findActor(View.MENU_GAME_BUTTON_NAME).addListener(getMenu_button_game());
@@ -72,12 +88,12 @@ public class Controller extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(menu);
 		view.setCurrent(menu);
 	}
-	private void setupGame() {
+	private void setupGame(int fromLevel) {
 		gameView.clear();
 		game.clear();
 		prepareGame();
 		game.addListener(game_esc);
-		gameController.startGame(game);
+		gameController.startGame(game, fromLevel);
 		view.setCurrent(gameView);
 	}
 	private void setupSettings() {
@@ -99,10 +115,18 @@ public class Controller extends ApplicationAdapter {
 		root.add(mainTable).grow().pad(0);
 	}
 
+	public final ChangeListener end_game_button_menu = new ChangeListener() {
+		@Override
+		public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+			setupMenu();
+			Gdx.input.setInputProcessor(menu);
+		}
+	};
+
 	public final ChangeListener menu_button_game = new ChangeListener() {
 		@Override
 		public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-			setupGame();
+			setupGame(0);
 			Gdx.input.setInputProcessor(game);
 		}
 	};
