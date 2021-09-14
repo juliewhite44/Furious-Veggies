@@ -8,11 +8,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.io.furiousveggies.model.Game;
+import com.io.stonks.model.Game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.io.furiousveggies.model.Block;
+import com.io.stonks.model.Block;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
