@@ -43,26 +43,23 @@ class GameElementTest {
 		enemy = factory.createEnemy(world, ENEMY_START_X, BLOCK_ENEMY_START_Y, SIZE_BLOCK_ENEMY, 1);
 		projectile = factory.createProjectile(world, PROJECTILE_START_X, PROJECTILE_START_Y, SIZE_PROJECTILE, 1);
 		projectile.shoot(-1000, 0);
+	}
+	
+	@Test
+	void testShoot() {
+		assertFalse(block.getX(Align.center) < BLOCK_START_X - 0.1);
+		assertFalse(enemy.getX(Align.center) < ENEMY_START_X - 0.1);
+		assertFalse(projectile.getY(Align.center) == PROJECTILE_START_Y);
+
 		for(int i = 0; i < 60 * 100; i++) {
 			world.step(1.0f/60.0f, 8, 6);
 			block.act(1.0f/60.0f);
 			enemy.act(1.0f/60.0f);
 			projectile.act(1.0f/60.0f);
 		}
-	}
-	
-	@Test
-	void testBlockMoved() {
+		
 		assertTrue(block.getX(Align.center) < BLOCK_START_X - 1);
-	}
-	
-	@Test
-	void testEnemyMoved() {
 		assertTrue(enemy.getX(Align.center) < ENEMY_START_X - 1);
-	}
-	
-	@Test
-	void testProjectileFallen() {
 		assertTrue(projectile.getY(Align.center) < SIZE_PROJECTILE/2 + 0.1f);
 	}
 }
