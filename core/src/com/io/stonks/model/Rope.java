@@ -31,12 +31,18 @@ public class Rope extends PossibleRope {
 
     @Override
     public void act(float delta){
-    	if(mousePositionX < 0) {
-    		projectile.setPosition(0, height - mousePositionY, Align.center);
-    	}
-    	else if(mousePositionX < endX) {
-            projectile.setPosition(mousePositionX, height - mousePositionY, Align.center);
+    	float posX = mousePositionX, posY = height - mousePositionY;
+    	if(mousePositionX < 0)
+    		posX = 0;
+		if(mousePositionX > endX) {
+    		posX = endX;
         }
+    	if(mousePositionY > height)
+    		posY = 0;
+    	else if(mousePositionY < 0)
+    		posY = height;
+    	projectile.setPosition(posX, posY, Align.center);
+    	
     }
 
     @Override
