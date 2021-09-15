@@ -31,8 +31,10 @@ public class Rope extends PossibleRope {
 
     @Override
     public void act(float delta){
-        //todo ewentualnie mozna zrobic tak zeby nie dalo sie linki ciagnac za sciany ale ja nie umiem
-        if(mousePositionX < endX) {
+    	if(mousePositionX < 0) {
+    		projectile.setPosition(0, height - mousePositionY, Align.center);
+    	}
+    	else if(mousePositionX < endX) {
             projectile.setPosition(mousePositionX, height - mousePositionY, Align.center);
         }
     }
