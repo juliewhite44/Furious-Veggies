@@ -23,8 +23,8 @@ public class Settings  extends Stage {
         this.settingsElementsFactory = settingsElementsFactory;
         settingsChangeListener = newSkin -> { };
         availableSkins = new Array<>();
-        availableSkins.add(new Rural());
-        availableSkins.add(new Pixthulhu());
+        availableSkins.add(Rural.getInstance());
+        availableSkins.add(Pixthulhu.getInstance());
         currentSkin = 0;
     }
 

@@ -6,10 +6,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 
 public class Pixthulhu implements SkinWrapper {
+	private static SkinWrapper instance = null;
     private final Skin skin;
 
-    public Pixthulhu(){
+    private Pixthulhu(){
         skin = new Skin(Gdx.files.internal("skin/pixthulhu/pixthulhu-ui.json"));
+    }
+    
+    public static SkinWrapper getInstance() {
+    	if(instance == null)
+    		instance = new Pixthulhu();
+    	return instance;
     }
 
     @Override

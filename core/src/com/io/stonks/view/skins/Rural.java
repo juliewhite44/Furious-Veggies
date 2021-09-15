@@ -6,10 +6,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 
 public class Rural implements SkinWrapper {
+	private static SkinWrapper instance = null;
     private final Skin skin;
 
-    public Rural(){
+    private Rural(){
         skin = new Skin(Gdx.files.internal("skin/rural/rural.json"));
+    }
+    
+    public static SkinWrapper getInstance() {
+    	if(instance == null)
+    		instance = new Rural();
+    	return instance;
     }
 
     @Override
