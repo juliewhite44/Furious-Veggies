@@ -30,7 +30,6 @@ public class Shooter extends GameElement {
 
 	public void shoot(){
 		rope.shoot();
-		//todo zamienić null jakąś pustą implementacją
 		rope = new PossibleRope();
 	}
 
