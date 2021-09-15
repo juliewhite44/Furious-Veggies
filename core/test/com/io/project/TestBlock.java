@@ -39,7 +39,6 @@ class TestBlock {
 		
 		body = world.createBody(bodyDef);
 		
-		
 		PolygonShape box = new PolygonShape();
 		box.setAsBox(bodyHalfSize, bodyHalfSize);
 		
