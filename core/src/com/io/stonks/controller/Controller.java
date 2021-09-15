@@ -76,9 +76,9 @@ public class Controller extends ApplicationAdapter {
 				Gdx.input.setInputProcessor(game);
 			}
 		});
-		menu.addActor(buttonsTable.getParent().getParent());
-		Gdx.input.setInputProcessor(menu);
-		view.setCurrent(menu);
+		gameOver.addActor(buttonsTable.getParent().getParent());
+		Gdx.input.setInputProcessor(gameOver);
+		view.setCurrent(gameOver);
 	}
 	private void setupMenu() {
 		Table buttonsTable = view.createMenuTable();
