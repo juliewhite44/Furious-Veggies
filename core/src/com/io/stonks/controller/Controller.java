@@ -55,7 +55,7 @@ public class Controller extends ApplicationAdapter {
 		gameController = new GameController(levels, this, gameView);
 
 		sound = Gdx.audio.newSound(Gdx.files.internal("sound/mainTheme.wav"));
-		sound.loop();
+		//sound.loop();
 
 		setupMenu();
 	}
